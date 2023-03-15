@@ -1,1 +1,1 @@
-export { LogInAuth } from "./log-in-auth";
+export { LogInAuth } from './log-in-auth';

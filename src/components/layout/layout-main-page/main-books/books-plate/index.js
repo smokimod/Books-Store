@@ -1,1 +1,1 @@
-export { BooksPlate } from "./books-plate";
+export { BooksPlate } from './books-plate';

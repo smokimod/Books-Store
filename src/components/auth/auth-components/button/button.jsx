@@ -1,9 +1,7 @@
-import "./button.scss";
+import './button.scss';
 
-export const Button = ({ children }) => {
-  return (
-    <button type="submit" className={"reg-next-moveBtn"}>
-      {children}
-    </button>
-  );
-};
+export const Button = ({ children }) => (
+  <button type='submit' className='reg-next-moveBtn'>
+    {children}
+  </button>
+);

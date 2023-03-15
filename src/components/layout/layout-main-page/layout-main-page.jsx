@@ -1,11 +1,13 @@
-import { Outlet } from "react-router-dom";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
 
-import { BooksSlice, CategoryOfBooksSlice } from "../../../store/books-slice";
-import { Menu } from "./menu";
+import { BooksSlice, CategoryOfBooksSlice } from '../../../store/books-slice';
 
-import "../layout.scss";
+import { Menu } from './menu';
+
+import '../layout.scss';
 
 export const LayoutMainPage = () => {
   const books = useSelector((state) => state.books.books);
@@ -18,12 +20,13 @@ export const LayoutMainPage = () => {
       categories.length > 0 ? null : await dispatch(CategoryOfBooksSlice());
       books.length > 0 ? null : await dispatch(BooksSlice());
     };
+
     getInitialData();
-  }, [dispatch, categories]);
+  }, [dispatch, categories, books.length]);
 
   return (
-    <div className="main-container">
-      <div className="show-menu">
+    <div className='main-container'>
+      <div className='show-menu'>
         <Menu />
       </div>
       <Outlet />

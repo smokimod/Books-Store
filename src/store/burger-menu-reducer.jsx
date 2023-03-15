@@ -1,5 +1,5 @@
-const CLOSE_GURGER = "ClOSE_BURGER";
-const OPEN_BURGER = "OPEN_BURGER";
+const CLOSE_GURGER = 'ClOSE_BURGER';
+const OPEN_BURGER = 'OPEN_BURGER';
 
 const initialState = {
   isBurger: false,

@@ -1,11 +1,10 @@
-const GET_REGISTRATION_DATA = "GET_REGISTRATION_DATA";
-const LOADING_REGISTRATION_DATA = "LOADING_REGISTRATION_DATA";
-const ERROR_REGISTRATION_DATA = "ERROR_REGISTRATION_DATA";
+/* eslint-disable unicorn/filename-case */
+const GET_REGISTRATION_DATA = 'GET_REGISTRATION_DATA';
+const LOADING_REGISTRATION_DATA = 'LOADING_REGISTRATION_DATA';
+const ERROR_REGISTRATION_DATA = 'ERROR_REGISTRATION_DATA';
 
 const initialState = {
-  userData: localStorage.getItem("auth")
-    ? JSON.parse(localStorage.getItem("auth"))
-    : [],
+  userData: localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth')) : [],
   loading: false,
   error: false,
 };
@@ -22,6 +21,7 @@ export const authReducer = (state = initialState, action) => {
         error: action.payload,
         loading: false,
       };
+
     default:
       return state;
   }
