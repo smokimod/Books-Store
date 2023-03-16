@@ -1,13 +1,25 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import emtyStar from '../../../icons/book-images/emptyStar_icon.svg';
 import star from '../../../icons/book-images/start_icon.svg';
 import userIcon from '../../../icons/comment_icon.svg';
+import { CommentDate } from '../comment-date/comment-date';
 
 import './book-coments.scss';
 
 export const BookComents = ({ comments = [], handleShowComment }) => {
   const [showComments, setShownComments] = useState(false);
+  const userId = useSelector((state) => state.auth.userData.data.user.id);
+  const [date] = comments;
+
+  const find = comments.find((item) => item.user.commentUserId === userId);
+
+  const commentList = useMemo(() => {
+    const sort = comments.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+
+    return sort;
+  }, [comments]);
 
   return (
     <div className='book-coments'>
@@ -26,8 +38,8 @@ export const BookComents = ({ comments = [], handleShowComment }) => {
       </div>
       {showComments ? (
         <div className='feed-back'>
-          {comments && comments.length >= 1
-            ? comments.map((item) => (
+          {comments.length >= 1
+            ? commentList.map((item) => (
                 <div className='comment one' key={item.id}>
                   <div className='user-name-data' id={item.user.commentUserId}>
                     <div>
@@ -36,11 +48,12 @@ export const BookComents = ({ comments = [], handleShowComment }) => {
                     <div className='name-date'>
                       <div>{item.user.firstName}</div>
                       <div>{item.user.lastName}</div>
+                      <CommentDate date={date} />
                     </div>
                   </div>
                   <div className='bookItem-rating-star'>
                     {item.rating
-                      ? [0, 1, 2, 3, 4].map((__, index) => (
+                      ? [...Array(5)].map((__, index) => (
                           <img
                             className='rating-start'
                             src={index >= Math.round(item.rating) ? emtyStar : star}
@@ -48,7 +61,7 @@ export const BookComents = ({ comments = [], handleShowComment }) => {
                             key={Math.random()}
                           />
                         ))
-                      : [0, 1, 2, 3, 4].map(() => (
+                      : [...Array(5)].map(() => (
                           <img className='rating-start' src={emtyStar} alt='emtyStar' key={Math.random()} />
                         ))}
                   </div>
@@ -58,7 +71,13 @@ export const BookComents = ({ comments = [], handleShowComment }) => {
             : null}
         </div>
       ) : null}
-      <button data-test-id='button-rating' type='button' className='set-a-comment' onClick={handleShowComment}>
+      <button
+        data-test-id='button-rating'
+        type='button'
+        className={find ? 'set-a-comment disabled' : 'set-a-comment'}
+        onClick={handleShowComment}
+        disabled={find ? true : false}
+      >
         оценить книгу
       </button>
     </div>
