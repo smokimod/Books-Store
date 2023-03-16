@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { CategoryOfBooksSlice, CurrentBookSlice } from '../../store/books-slice';
+import { AlertCase } from '../error-case/error-case';
 import { Loader } from '../loader';
 
 import { AdditionalInfoBook } from './additional-info-book/additional-info-book';
@@ -22,6 +23,8 @@ export const BookPage = () => {
   const currentBook = useSelector((state) => state.books.currentBook);
   const categories = useSelector((state) => state.books.categories);
   const error = useSelector((state) => state.books.error);
+  const commentError = useSelector((state) => state.comment.error);
+  const success = useSelector((state) => state.comment.success);
 
   const { authors, description, issueYear, title, booking, delivery, images, rating, comments } = currentBook;
 
@@ -44,6 +47,11 @@ export const BookPage = () => {
   ) : (
     <div className='book-container'>
       <BreadCrumbs title={title} />
+      {commentError ? (
+        <AlertCase text='Оценка не была отправлена. Попробуйте позже!' />
+      ) : success ? (
+        <AlertCase text='Спасибо, что нашли время оценить книгу!' />
+      ) : null}
       {error ? null : (
         <div className='book-holder'>
           <section className='book-page'>

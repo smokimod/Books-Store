@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
-import { ErrorCase } from '../error-case/error-case';
+import { AlertCase } from '../error-case/error-case';
 
 import { Menuburger } from './layout-main-page/menu/menu-burger/menu-burger';
 import { Footer } from './footer';
@@ -23,7 +23,7 @@ export const Layout = () => {
     <React.Fragment>
       <Header closeBurger={toggleBurger} />
       <main onClick={toggleBurger} role='presentation'>
-        {error && <ErrorCase />}
+        {error && <AlertCase />}
         <Outlet />
         {burger && <Menuburger showArticle={burger} />}
       </main>

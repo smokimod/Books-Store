@@ -38,7 +38,7 @@ export const Header = ({ closeBurger }) => {
           </Link>
         </div>
         <h3 className='library header-item'>Библиотека</h3>
-        <div className='user header-item' onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+        <div className='user header-item' role='presentation' onClick={() => setOpen(!open)}>
           <div className='user-name'>Привет, {userName?.data?.user?.firstName}</div>
           <div className='img-user-container'>
             <img className='img-user' src={avatar} alt={avatar} />

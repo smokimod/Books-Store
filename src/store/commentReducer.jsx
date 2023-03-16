@@ -5,19 +5,20 @@ const LOADING_COMMENT = 'LOADING_COMMENT';
 const ERROR_COMMENT = 'ERROR_COMMENT';
 
 const initialState = {
-  comment: [],
+  comment: {},
   loading: false,
   error: false,
+  success: false,
 };
 
 export const CommentReducer = (state = initialState, action) => {
-  switch (action.payload) {
+  switch (action.type) {
     case LOADING_COMMENT:
       return { ...state, loading: true };
     case COMMENT_DATA:
-      return { ...state, loading: false, comment: action.payload };
+      return { ...state, loading: false, comment: action.payload, success: true };
     case ERROR_COMMENT:
-      return { ...state, loading: false, error: true };
+      return { ...state, loading: false, error: true, success: false };
     default:
       return state;
   }
