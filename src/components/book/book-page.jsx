@@ -25,8 +25,9 @@ export const BookPage = () => {
   const error = useSelector((state) => state.books.error);
   const commentError = useSelector((state) => state.comment.error);
   const success = useSelector((state) => state.comment.success);
-
   const { authors, description, issueYear, title, booking, delivery, images, rating, comments } = currentBook;
+
+  console.log(currentBook);
 
   useEffect(() => {
     const getBookRequestById = async () => {

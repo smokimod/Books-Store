@@ -10,6 +10,7 @@ import { PlateSqureButtoms } from './plate-squre-buttoms/plate-squre-buttoms';
 import { SearchField } from './search-field/search-field';
 
 import './main-page.scss';
+import { Calendar } from '../../../calendar/calendar';
 
 export const MainPage = () => {
   const books = useSelector((state) => state.books.books);
@@ -22,6 +23,7 @@ export const MainPage = () => {
   const [showPlate, setShowPlate] = useState(true);
   const [sortByRating, setSortByRating] = useState(false);
   const [searchParam, setSearchParam] = useState('');
+  const [showCalendar, setShowCalendar] = useState(false);
 
   const chooseCategoryByName = categories.find((item) => item.path === category);
 
@@ -41,6 +43,12 @@ export const MainPage = () => {
   return (
     <React.Fragment>
       {loading ? <Loader /> : null}
+      <Calendar
+        setShowCalendar={() => {
+          setShowCalendar(!showCalendar);
+        }}
+        showCalendar={showCalendar}
+      />
       <section className={error || loading ? 'article-section hidden' : 'article-section'}>
         <div className='navigation-wraper'>
           <div className='navigation-menu'>
