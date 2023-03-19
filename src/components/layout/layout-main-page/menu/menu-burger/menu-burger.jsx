@@ -16,6 +16,10 @@ export const Menuburger = ({ showArticle }) => {
     setCloseMenu(true);
     dispatch({ type: 'ClOSE_BURGER' });
   };
+  const hanbdleClose = () => {
+    setCloseMenu(true);
+    dispatch({ type: 'ClOSE_BURGER' });
+  };
 
   return (
     <div
@@ -24,7 +28,7 @@ export const Menuburger = ({ showArticle }) => {
       onClick={(e) => e.stopPropagation()}
       data-test-id='burger-navigation'
     >
-      <Menu showArticle={showArticle} hanbdleClose={wayDownMenu} />
+      <Menu showArticle={showArticle} hanbdleClose={hanbdleClose} />
       <div className='border-menu' />
       <div className='terms-profile-container'>
         <NavLink className={setActive} to='/#' activeclassname='active item'>
@@ -32,7 +36,13 @@ export const Menuburger = ({ showArticle }) => {
             Профиль
           </button>
         </NavLink>
-        <NavLink className={setActive} to='/' activeclassname='active item'>
+        <NavLink
+          className={setActive}
+          to='/'
+          activeclassname='active item'
+          onClick={(e) => e.stopPropagation()}
+          role='presentation'
+        >
           <button onClick={wayDownMenu} type='button' className='terms item'>
             Выход
           </button>

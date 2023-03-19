@@ -40,15 +40,15 @@ export const MainPage = () => {
     return sort;
   }, [category, searchParam, books, chooseCategoryByName, sortByRating]);
 
+  const orderBook = (e) => {
+    e.preventDefault();
+    setShowCalendar(!showCalendar);
+  };
+
   return (
     <React.Fragment>
       {loading ? <Loader /> : null}
-      <Calendar
-        setShowCalendar={() => {
-          setShowCalendar(!showCalendar);
-        }}
-        showCalendar={showCalendar}
-      />
+      <Calendar showCalendar={showCalendar} orderBook={orderBook} />
       <section className={error || loading ? 'article-section hidden' : 'article-section'}>
         <div className='navigation-wraper'>
           <div className='navigation-menu'>
@@ -78,6 +78,7 @@ export const MainPage = () => {
                       delivery={item.delivery}
                       key={item.id}
                       searchParam={searchParam}
+                      orderBook={orderBook}
                     />
                   ) : (
                     <BooksPlate
@@ -91,6 +92,7 @@ export const MainPage = () => {
                       delivery={item.delivery}
                       key={item.id}
                       searchParam={searchParam}
+                      orderBook={orderBook}
                     />
                   )
                 )

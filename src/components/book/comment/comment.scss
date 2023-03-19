@@ -21,7 +21,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  backdrop-filter: blur(none);
   padding: 48px 32px;
   gap: 32px;
   position: absolute;
@@ -48,7 +47,6 @@
     align-items: center;
     color: inherit;
     border: none;
-    text-align: start;
     padding: 0;
     cursor: pointer;
     outline: inherit;
@@ -160,8 +158,18 @@
         }
       }
     }
+    .cross-container {
+      width: 32px;
+      height: 32px;
+      img {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
     .btn-comment {
       font-size: 12px;
+      height: 40px;
     }
   }
 }

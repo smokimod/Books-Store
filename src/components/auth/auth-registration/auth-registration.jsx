@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -56,7 +57,7 @@ export const AuthRegistration = () => {
     e.preventDefault();
     dispatch(loadingAuthReducer());
     axios
-      .post('https://strapi.cleverland.by/api/auth/local/dwqdwq', data)
+      .post('https://strapi.cleverland.by/api/auth/local/register', data)
       .then((results) => {
         dispatch(getAuthReducer(results));
         setShowModal(true);
@@ -110,11 +111,8 @@ export const AuthRegistration = () => {
                 </div>
               </div>
               <div className='reg-required-inputs-container'>
-                {step === 1 ? (
-                  <RegStepOne register={register} errors={errors} status={status} watch={watch} />
-                ) : (
-                  <RegStepTwo register={register} errors={errors} status={status} watch={watch} />
-                )}
+                {step === 1 && <RegStepOne register={register} errors={errors} status={status} watch={watch} />}
+                {step === 2 && <RegStepTwo register={register} errors={errors} status={status} watch={watch} />}
                 {step === 3 && <RegStepThree register={register} errors={errors} status={status} />}
               </div>
               <div className='next-move-container'>

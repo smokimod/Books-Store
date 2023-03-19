@@ -7,9 +7,29 @@ import { HighLighter } from '../highlighter/highlighter';
 
 import './books-squre.scss';
 
-export const BookSqure = ({ title, authors, id, image, rating, issueYear, booking, delivery, searchParam }) => {
+export const BookSqure = ({
+  title,
+  authors,
+  id,
+  image,
+  rating,
+  issueYear,
+  booking,
+  delivery,
+  searchParam,
+  orderBook,
+}) => {
   const IMAGE_URL = 'https://strapi.cleverland.by';
   const { category } = useParams();
+  const stars = [...Array(5)].map((__, index) => (
+    <img src={index >= Math.round(rating) ? emtyStar : star} alt={star} key={Math.random()} />
+  ));
+  const bookOrderStatusStyle = booking?.order ? 'order booking' : delivery?.handed ? 'order delivery' : 'order';
+  const bookOrderStatusText = booking?.order
+    ? `Занята до ${booking.dateOrder}`
+    : delivery?.handed
+    ? 'Забронировна'
+    : 'Забронировать';
 
   return (
     <Link to={`/books/${category}/${id}`} key={id} id='card'>
@@ -24,11 +44,7 @@ export const BookSqure = ({ title, authors, id, image, rating, issueYear, bookin
             />
           </div>
           {rating ? (
-            <div className='book-rating star'>
-              {[0, 1, 2, 3, 4].map((__, index) => (
-                <img src={index >= Math.round(rating) ? emtyStar : star} alt={star} key={Math.random()} />
-              ))}
-            </div>
+            <div className='book-rating star'>{stars}</div>
           ) : (
             <div className='book-rating'>ещё нет отзывов</div>
           )}
@@ -40,11 +56,12 @@ export const BookSqure = ({ title, authors, id, image, rating, issueYear, bookin
             {authors}, {issueYear}
           </div>
           <button
+            onClick={orderBook}
             id={booking ? booking?.id : delivery ? delivery?.id : ''}
             type='button'
-            className={booking?.order ? 'order booking' : delivery?.handed ? 'order delivery' : 'order'}
+            className={bookOrderStatusStyle}
           >
-            {booking?.order ? `Занята до ${booking.dateOrder}` : delivery?.handed ? 'Забронировна' : 'Забронировать'}
+            {bookOrderStatusText}
           </button>
         </div>
       </div>
