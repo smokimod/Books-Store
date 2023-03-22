@@ -29,7 +29,6 @@ export const RestorePasswordInputs = ({ register, errors, isDirty, isValid }) =>
         <button className='icon-password' type='button'>
           {isValid && isDirty ? <img src={ConfirmedPassword} alt='ConfirmedPassword' /> : null}
         </button>
-        <span>Пароль не менее 8 символов, с заглавной буквой и цифрой</span>
       </label>
       <label htmlFor='passwordConfirmation'>
         <input
@@ -46,15 +45,15 @@ export const RestorePasswordInputs = ({ register, errors, isDirty, isValid }) =>
           <img src={(showRepeatablePassword && EyeOpen) || (!showRepeatablePassword && EyeClose)} alt='eye' />
         </button>
       </label>
-      {(errors?.password && (
-        <span className='restore-password' style={{ color: 'red' }} data-test-id=' hint'>
-          {errors?.password?.message && ''}
-        </span>
+      {(errors.password && (
+        <div className='restore-password' style={{ color: 'red' }}>
+          {errors?.password?.message}
+        </div>
       )) ||
-        (errors?.passwordConfirmation && (
-          <span className='restore-password' style={{ color: 'red' }} data-test-id=' hint'>
+        (errors.passwordConfirmation && (
+          <div className='restore-password' style={{ color: 'red' }}>
             {errors?.passwordConfirmation?.message}
-          </span>
+          </div>
         ))}
     </React.Fragment>
   );

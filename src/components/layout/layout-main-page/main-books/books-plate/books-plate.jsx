@@ -7,7 +7,18 @@ import { HighLighter } from '../highlighter/highlighter';
 
 import './books-plate.scss';
 
-export const BooksPlate = ({ title, authors, id, image, rating, issueYear, booking, delivery, searchParam }) => {
+export const BooksPlate = ({
+  title,
+  authors,
+  id,
+  image,
+  rating,
+  issueYear,
+  booking,
+  delivery,
+  searchParam,
+  orderBook,
+}) => {
   const IMAGE_URL = 'https://strapi.cleverland.by';
   const { category } = useParams();
 
@@ -38,6 +49,7 @@ export const BooksPlate = ({ title, authors, id, image, rating, issueYear, booki
                 <div className='book-rating'>ещё нет отзывов</div>
               )}
               <button
+                onClick={orderBook}
                 id={booking ? booking?.id : delivery ? delivery?.id : ''}
                 type='button'
                 className={booking?.order ? 'plate-btn booking' : delivery?.handed ? 'plate-btn delivery' : 'plate-btn'}

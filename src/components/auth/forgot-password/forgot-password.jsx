@@ -61,7 +61,7 @@ export const ForgotPassword = () => {
         (userData?.status === 200 && showModal && !location?.search && <Message />) || (
           <form className='restore-form' onSubmit={handleSubmit(onSubmit)} data-test-id='send-email-form'>
             <div className='back-to-login-link-container'>
-              <Link className='back-to-login-link' to='/auth/local'>
+              <Link className='back-to-login-link' to='/local'>
                 <div>
                   <img src={ArrowBack} alt='arrow' />
                 </div>
@@ -97,7 +97,7 @@ export const ForgotPassword = () => {
                 <Button isDirty={isDirty} isValid={isValid}>
                   восстановить
                 </Button>
-                <LinkTo question='Нет учётной записи?' link='Регистрация' path='/auth/register' />
+                <LinkTo question='Нет учётной записи?' link='Регистрация' path='/register' />
               </div>
             </div>
           </form>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { CategoryOfBooksSlice, CurrentBookSlice } from '../../store/books-slice';
+import { OrderBookCalendar } from '../calendar/calendar';
 import { AlertCase } from '../error-case/error-case';
 import { Loader } from '../loader';
 
@@ -19,13 +20,13 @@ export const BookPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [showComment, setShowComment] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
   const loading = useSelector((state) => state.books.loading);
   const currentBook = useSelector((state) => state.books.currentBook);
   const categories = useSelector((state) => state.books.categories);
   const error = useSelector((state) => state.books.error);
   const commentError = useSelector((state) => state.comment.error);
   const success = useSelector((state) => state.comment.success);
-
   const { authors, description, issueYear, title, booking, delivery, images, rating, comments } = currentBook;
 
   useEffect(() => {
@@ -42,6 +43,11 @@ export const BookPage = () => {
     setShowComment(!showComment);
   };
 
+  const orderBook = (e) => {
+    e.preventDefault();
+    setShowCalendar(!showCalendar);
+  };
+
   return loading ? (
     <Loader />
   ) : (
@@ -54,6 +60,8 @@ export const BookPage = () => {
       ) : null}
       {error ? null : (
         <div className='book-holder'>
+          <OrderBookCalendar showCalendar={showCalendar} orderBook={orderBook} />
+
           <section className='book-page'>
             <div className='book-name'>
               <div className='book-information'>
@@ -65,6 +73,7 @@ export const BookPage = () => {
                   {authors}, {issueYear}
                 </div>
                 <button
+                  onClick={orderBook}
                   type='button'
                   className={
                     booking?.order

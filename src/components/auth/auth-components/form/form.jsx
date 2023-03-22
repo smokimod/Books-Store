@@ -11,11 +11,7 @@ export const Form = ({ handleSubmit, children }) => {
       className='register-form'
       onSubmit={handleSubmit}
       data-test-id={
-        location === 'auth/local'
-          ? 'auth-form '
-          : location === 'auth/register'
-          ? 'register-form '
-          : 'reset-password-form '
+        location === '/local' ? 'auth-form ' : location === '/register' ? 'register-form ' : 'reset-password-form '
       }
     >
       <div className='register-container'>{children}</div>

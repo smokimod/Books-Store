@@ -1,46 +1,72 @@
-.comment-layout {
+.calendar-layout {
+  position: fixed;
   height: 100vh;
   width: 100vw;
-  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(54, 54, 54, 0.3);
   backdrop-filter: blur(10px);
-  z-index: 10;
+  z-index: 11;
 }
-.comment-layout.disabled {
-  display: none;
-}
-.comment-wrapper {
+.calendar-wrapper {
   position: relative;
   top: 25%;
   left: 35%;
 }
-.comment-container {
+
+.calednar-container {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: flex-start;
+  width: 528px;
   padding: 48px 32px;
   gap: 32px;
-  position: absolute;
-  width: 528px;
   background: #ffffff;
   border-radius: 16px;
+  .calendar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 256px;
+    background: #ffffff;
+    box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
+      0px 1px 5px rgba(191, 196, 201, 0.24);
+    border-radius: 8px;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 24px;
+  }
+  .chosen-month {
+    border: none;
+    font-size: 16px;
+    line-height: 24px;
+    color: #a7a7a7;
+    &:focus,
+    :active {
+      border: none;
+    }
+  }
   h4 {
-    margin: 0;
     font-weight: 700;
     font-size: 24px;
     line-height: 30px;
+    text-align: center;
+    width: 216px;
     color: #363636;
   }
+
   .cross-container {
     width: 48px;
     height: 48px;
     border-radius: 25px;
     position: absolute;
-    right: 20px;
     top: 20px;
+    left: 20px;
     background: #f9f9fa;
     display: flex;
     justify-content: center;
@@ -54,54 +80,16 @@
   .cross-container:hover > img:first-child {
     filter: invert(31%) sepia(89%) saturate(6026%) hue-rotate(13deg) brightness(108%) contrast(102%);
   }
-  .btn-star {
-    background: none;
+  .arrow-up,
+  .arrow-down {
     color: inherit;
     border: none;
     text-align: start;
     padding: 0;
     cursor: pointer;
     outline: inherit;
-  }
-
-  .btn-star.off {
-    img {
-      filter: brightness(0.2) grayscale(1) hue-rotate(41deg) invert(1) saturate(3) contrast(0.6);
-    }
-  }
-  .your-estimate {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 258px;
-    height: 82px;
-    p {
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 24px;
-      color: #363636;
-      text-align: center;
-    }
-    div {
-      width: 100%;
-      display: flex;
-      justify-content: space-evenly;
-      img {
-        width: 35px;
-        height: 33.25px;
-      }
-    }
-  }
-  .comment-area {
-    width: 100%;
-    padding: 19px;
-    caret-color: rgb(248, 54, 0);
-    &::placeholder {
-      font-size: 14px;
-      margin: 10px;
-      line-height: 18px;
-      color: #a7a7a7;
-    }
+    background-color: transparent;
+    margin-left: 12px;
   }
 
   .btn-comment {
@@ -128,47 +116,36 @@
   }
 }
 @media (min-width: 768px) and (max-width: 1440px) {
-  .comment-wrapper {
-    left: calc(15% + (35 - 15) * ((100vw - 768px) / (1440 - 768)));
+  .calendar-wrapper {
+    left: calc(15% + (250 - 15) * ((100vw - 768px) / (1440 - 768)));
   }
 }
 @media (min-width: 320px) and (max-width: 768px) {
-  .comment-wrapper {
-    left: calc(10% + (35 - 10) * ((100vw - 768px) / (1440 - 768)));
+  .calendar-wrapper {
+    left: calc(5% + (100 - 5) * ((100vw - 320px) / (768 - 320)));
   }
-  .comment-container {
+  .calednar-container {
     padding: 42px calc(16px + (32 - 16) * ((100vw - 320px) / (768 - 320)));
     width: calc(288px + (528 - 288) * ((100vw - 320px) / (768 - 320)));
   }
 }
-
 @media (max-width: 320px) {
-  .comment-container {
+  .calednar-container {
     h4 {
       font-size: 18px;
       line-height: 28px;
     }
-    .your-estimate {
-      width: 208px;
-      height: 72px;
-      div {
-        img {
-          width: 26.67px;
-          height: 25.33px;
-        }
-      }
-    }
     .cross-container {
-      width: 32px;
-      height: 32px;
+      width: 26px;
+      height: 26px;
       img {
         width: 16px;
         height: 16px;
       }
     }
-
     .btn-comment {
       font-size: 12px;
+      font-weight: 600;
       height: 40px;
     }
   }

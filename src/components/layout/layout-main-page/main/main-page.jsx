@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { OrderBookCalendar } from '../../../calendar/calendar';
 import { Loader } from '../../../loader';
 import { BooksPlate } from '../main-books/books-plate';
 import { BookSqure } from '../main-books/books-squre';
@@ -22,6 +23,7 @@ export const MainPage = () => {
   const [showPlate, setShowPlate] = useState(true);
   const [sortByRating, setSortByRating] = useState(false);
   const [searchParam, setSearchParam] = useState('');
+  const [showCalendar, setShowCalendar] = useState(false);
 
   const chooseCategoryByName = categories.find((item) => item.path === category);
 
@@ -38,9 +40,15 @@ export const MainPage = () => {
     return sort;
   }, [category, searchParam, books, chooseCategoryByName, sortByRating]);
 
+  const orderBook = (e) => {
+    e.preventDefault();
+    setShowCalendar(!showCalendar);
+  };
+
   return (
     <React.Fragment>
       {loading ? <Loader /> : null}
+      <OrderBookCalendar showCalendar={showCalendar} orderBook={orderBook} />
       <section className={error || loading ? 'article-section hidden' : 'article-section'}>
         <div className='navigation-wraper'>
           <div className='navigation-menu'>
@@ -70,6 +78,7 @@ export const MainPage = () => {
                       delivery={item.delivery}
                       key={item.id}
                       searchParam={searchParam}
+                      orderBook={orderBook}
                     />
                   ) : (
                     <BooksPlate
@@ -83,6 +92,7 @@ export const MainPage = () => {
                       delivery={item.delivery}
                       key={item.id}
                       searchParam={searchParam}
+                      orderBook={orderBook}
                     />
                   )
                 )

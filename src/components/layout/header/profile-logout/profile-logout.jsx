@@ -7,7 +7,7 @@ const removeLocalStorageAuth = () => {
 };
 
 export const ProfileLogout = ({ open }) => (
-  <div className={open ? 'profile' : 'profile disable'}>
+  <div className={open ? 'profile' : 'profile disable'} onClick={(e) => e.stopPropagation()} role='presentation'>
     <div className='profile-container'>
       <h3> Профиль</h3>
       <Link to='/' onClick={removeLocalStorageAuth} data-test-id='exit-button'>
