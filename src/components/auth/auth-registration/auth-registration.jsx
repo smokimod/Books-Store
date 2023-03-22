@@ -79,7 +79,7 @@ export const AuthRegistration = () => {
             title='Регистрация прошла успешно. Зайдите в личный кабинет, используя свои логин и пароль'
             text='вход'
             head='Регистрация успешна'
-            path='/auth/local'
+            path='/local'
             status={status}
           />
         )) ||
@@ -133,7 +133,7 @@ export const AuthRegistration = () => {
                     {step === 1 ? 'следующий шаг' : 'последний шаг'}
                   </button>
                 )}
-                <LinkTo question='Есть учётная запись?' link='Вход' path='/auth/local' />
+                <LinkTo question='Есть учётная запись?' link='Вход' path='/local' />
               </div>
             </React.Fragment>
           )}

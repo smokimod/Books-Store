@@ -7,7 +7,7 @@ export const PrivateRoute = ({ children }) => {
   return toggleRoutesPermission ? (
     children
   ) : (
-    <Navigate to={'/auth/local' || '/auth/register' || '/auth/forgot-pass'} state={{ from: location }} replace={true} />
+    <Navigate to={'/local' || '/register' || '/forgot-pass'} state={{ from: location }} replace={true} />
   );
 };
 export const PrivateRouteAuth = ({ children }) => {

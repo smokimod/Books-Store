@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { OrderBookCalendar } from '../../../calendar/calendar';
 import { Loader } from '../../../loader';
 import { BooksPlate } from '../main-books/books-plate';
 import { BookSqure } from '../main-books/books-squre';
@@ -10,7 +11,6 @@ import { PlateSqureButtoms } from './plate-squre-buttoms/plate-squre-buttoms';
 import { SearchField } from './search-field/search-field';
 
 import './main-page.scss';
-import { Calendar } from '../../../calendar/calendar';
 
 export const MainPage = () => {
   const books = useSelector((state) => state.books.books);
@@ -48,7 +48,7 @@ export const MainPage = () => {
   return (
     <React.Fragment>
       {loading ? <Loader /> : null}
-      <Calendar showCalendar={showCalendar} orderBook={orderBook} />
+      <OrderBookCalendar showCalendar={showCalendar} orderBook={orderBook} />
       <section className={error || loading ? 'article-section hidden' : 'article-section'}>
         <div className='navigation-wraper'>
           <div className='navigation-menu'>

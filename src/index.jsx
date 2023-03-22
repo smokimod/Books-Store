@@ -39,7 +39,7 @@ root.render(
           <Route path='books/:category/:id' element={<BookPage />} />
         </Route>
         <Route
-          path='/auth/'
+          path='/'
           element={
             <PrivateRouteAuth>
               <RegistrationLayout />

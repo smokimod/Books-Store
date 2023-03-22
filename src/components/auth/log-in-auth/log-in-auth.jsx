@@ -74,7 +74,7 @@ export const LogInAuth = () => {
               <Button isDirty={isDirty} isValid={isValid} status={status}>
                 вход
               </Button>
-              <LinkTo question='Нет учётной записи?' link='Регистрация' path='/auth/register' />
+              <LinkTo question='Нет учётной записи?' link='Регистрация' path='/register' />
             </div>
           </React.Fragment>
         )}

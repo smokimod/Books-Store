@@ -24,10 +24,10 @@ export const RestorePassword = () => {
     password: yup
       .string()
       .required('Поле не может быть пустым')
-      .matches(RegExp(/(?=.{1,})(?=.*\d)/), 'цифры')
-      .matches(RegExp(/(?=.{1,})((?=.*[A-Z]){1})/), 'латинкий алфовит')
-      .matches(RegExp(/^.*(?=.{8,})(?=.*\d)((?=.*[A-Z]){1}).*$/), 'не менее 8 символов')
-      .matches(RegExp(/^.*(?=.{8,})((?=.*[A-Z]){1}).*$/), 'не менее 8 символов, цифрой'),
+      .matches(RegExp(/(?=.{1,})(?=.*\d)/), 'Пароль должен содержать минимум одну цифру')
+      .matches(RegExp(/(?=.{1,})((?=.*[A-Z]){1})/), 'Должен присутствовать латинкий алфавит')
+      .matches(RegExp(/^.*(?=.{8,})(?=.*\d)((?=.*[A-Z]){1}).*$/), 'Пароль должен быть не менее 8 символов')
+      .matches(RegExp(/^.*(?=.{8,})((?=.*[A-Z]){1}).*$/), 'Пароль должен быть не менее 8 символов, цифрой'),
     passwordConfirmation: yup
       .string()
       .required('Поле не может быть пустым')
@@ -89,7 +89,7 @@ export const RestorePassword = () => {
         )) ||
           (userData?.status === 200 && showModal && (
             <StatusField
-              path='auth/local'
+              path='/local'
               title='Зайдите в кабинет, использую свои логин и пароль'
               head='Данные сохранились'
               text='вход'

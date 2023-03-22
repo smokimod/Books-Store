@@ -17,7 +17,7 @@ export const BooksPlate = ({
   booking,
   delivery,
   searchParam,
-  setShowCalendar,
+  orderBook,
 }) => {
   const IMAGE_URL = 'https://strapi.cleverland.by';
   const { category } = useParams();
@@ -49,7 +49,7 @@ export const BooksPlate = ({
                 <div className='book-rating'>ещё нет отзывов</div>
               )}
               <button
-                onClick={setShowCalendar}
+                onClick={orderBook}
                 id={booking ? booking?.id : delivery ? delivery?.id : ''}
                 type='button'
                 className={booking?.order ? 'plate-btn booking' : delivery?.handed ? 'plate-btn delivery' : 'plate-btn'}
