@@ -90,6 +90,7 @@
   background: #feebea !important;
   border-radius: 16px;
 }
+
 .react-calendar__month-view__days__day--neighboringMonth {
   color: #757575;
 }
@@ -107,8 +108,7 @@
   background-color: #f0f0f0;
 }
 .react-calendar__tile:enabled:hover {
-  border: 1px solid #bfc4c9;
-  border-radius: 16px;
+  font-weight: 800;
 }
 .react-calendar__tile:enabled:focus {
   color: #363636;

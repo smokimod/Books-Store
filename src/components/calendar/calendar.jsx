@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 
 import cross from '../../icons/creset_icon.svg';
@@ -8,7 +8,19 @@ import './Calender.css';
 
 export const OrderBookCalendar = ({ showCalendar, orderBook }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  //   const [activeDate, setActiveDate] = useState(new Date());
+  const [activeDate, setActiveDate] = useState(false);
+
+  useEffect(() => {
+    const today = new Date();
+    console.log(today.setDate(today.getDate() + 1));
+    const getDay = () => {
+      if (selectedDate.getDay() === 0) setActiveDate(true);
+      else if (selectedDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) setActiveDate(true);
+      else setActiveDate(false);
+    };
+
+    getDay();
+  }, [activeDate, setActiveDate, selectedDate]);
 
   const monthsArray = [
     'Январь',
@@ -24,6 +36,7 @@ export const OrderBookCalendar = ({ showCalendar, orderBook }) => {
     'Ноябрь',
     'Декабрь',
   ];
+
   const handleDateChange = (value) => {
     setSelectedDate(value);
   };
@@ -46,9 +59,7 @@ export const OrderBookCalendar = ({ showCalendar, orderBook }) => {
                 onClickMonth={handleMonthChange}
                 onClickYear={handleYearChange}
                 onChange={handleDateChange}
-                defaultValue={selectedDate}
                 value={selectedDate}
-                local='ru-Ru'
                 showFixedNumberOfWeeks={false}
                 minDetail='month'
                 maxDetail='month'
@@ -56,7 +67,11 @@ export const OrderBookCalendar = ({ showCalendar, orderBook }) => {
                 className='react-calendar'
               />
             </div>
-            <button type='button' className='btn-comment'>
+            <button
+              type='button'
+              className={activeDate ? 'btn-comment disabled' : 'btn-comment '}
+              disabled={activeDate}
+            >
               забронировать
             </button>
           </div>

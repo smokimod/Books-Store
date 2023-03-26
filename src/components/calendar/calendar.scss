@@ -108,6 +108,12 @@
     color: #ffffff;
     border: none;
   }
+  .btn-comment.disabled {
+    background: #f9f9fa !important;
+    border: 1px solid #bfc4c9;
+    font-weight: 600;
+    color: rgba(167, 167, 167, 1);
+  }
   .btn-comment:active {
     box-shadow: 0px 3px 4px rgba(222, 125, 11, 0.2), 0px 1px 10px rgba(249, 89, 8, 0.2);
   }
