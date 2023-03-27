@@ -40,15 +40,16 @@ export const MainPage = () => {
     return sort;
   }, [category, searchParam, books, chooseCategoryByName, sortByRating]);
 
-  const orderBook = (e) => {
+  const orderBook = (e, item) => {
     e.preventDefault();
+    sessionStorage.setItem('bookID', JSON.stringify(item));
     setShowCalendar(!showCalendar);
   };
 
   return (
     <React.Fragment>
       {loading ? <Loader /> : null}
-      <OrderBookCalendar showCalendar={showCalendar} orderBook={orderBook} />
+      <OrderBookCalendar showCalendar={showCalendar} orderBook={(item) => orderBook(item)} />
       <section className={error || loading ? 'article-section hidden' : 'article-section'}>
         <div className='navigation-wraper'>
           <div className='navigation-menu'>
@@ -68,6 +69,7 @@ export const MainPage = () => {
                 finallBooks.map((item) =>
                   showPlate ? (
                     <BookSqure
+                      item={item}
                       title={item.title}
                       authors={item.authors}
                       id={item.id}
@@ -92,7 +94,7 @@ export const MainPage = () => {
                       delivery={item.delivery}
                       key={item.id}
                       searchParam={searchParam}
-                      orderBook={orderBook}
+                      orderBook={() => orderBook(item)}
                     />
                   )
                 )

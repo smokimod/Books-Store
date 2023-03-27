@@ -10,10 +10,9 @@ import './book-coments.scss';
 
 export const BookComents = ({ comments = [], handleShowComment }) => {
   const [showComments, setShownComments] = useState(false);
-  const userId = useSelector((state) => state.auth.userData.data.user.id);
-  const [date] = comments;
+  const userId = useSelector((state) => state.auth.userData);
 
-  const find = comments.find((item) => item.user.commentUserId === userId);
+  const find = comments.find((item) => item.user.commentUserId === userId?.data?.user?.id);
 
   const commentList = useMemo(() => {
     const sort = comments.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
@@ -48,7 +47,7 @@ export const BookComents = ({ comments = [], handleShowComment }) => {
                     <div className='name-date'>
                       <div>{item.user.firstName}</div>
                       <div>{item.user.lastName}</div>
-                      <CommentDate date={date} />
+                      <CommentDate />
                     </div>
                   </div>
                   <div className='bookItem-rating-star'>
@@ -74,9 +73,9 @@ export const BookComents = ({ comments = [], handleShowComment }) => {
       <button
         data-test-id='button-rating'
         type='button'
-        className={find ? 'set-a-comment disabled' : 'set-a-comment'}
+        className={find && userId ? 'set-a-comment disabled' : 'set-a-comment'}
         onClick={handleShowComment}
-        disabled={find ? true : false}
+        disabled={find && userId ? true : false}
       >
         оценить книгу
       </button>

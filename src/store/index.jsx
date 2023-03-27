@@ -10,12 +10,12 @@ import { CommentReducer } from './commentReducer';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
+  orderBook: BookingsReducer,
   burger: BurgerMenuReducer,
   comments: BurgerMenuReducer,
   books: booksReducer,
   auth: authReducer,
   comment: CommentReducer,
-  bookigns: BookingsReducer,
 });
 
 export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));

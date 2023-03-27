@@ -18,7 +18,12 @@ export const AlertCase = ({ text }) => {
     }, 4000);
 
     return () => clearTimeout(timer);
-  }, [showPopUp]);
+  }, [showPopUp, setShowPopUp]);
+
+  const closeModal = () => {
+    setShowPopUp(false);
+    setShowError(true);
+  };
 
   return (
     showPopUp && (
@@ -30,7 +35,7 @@ export const AlertCase = ({ text }) => {
           <div className='error-text'>
             {text ? text : 'Что-то пошло не так. Обновите страницу через некоторое время.'}
           </div>
-          <button type='button' className='error-cross' onClick={() => setShowError(true)}>
+          <button type='button' className='error-cross' onClick={closeModal}>
             <img src={cross} alt='cross' />
           </button>
         </div>

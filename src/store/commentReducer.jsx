@@ -3,6 +3,7 @@
 const COMMENT_DATA = 'COMMENT_DATA';
 const LOADING_COMMENT = 'LOADING_COMMENT';
 const ERROR_COMMENT = 'ERROR_COMMENT';
+const SUCCES_DISPLAY = 'SUCCES_DISPLAY';
 
 const initialState = {
   comment: {},
@@ -19,6 +20,8 @@ export const CommentReducer = (state = initialState, action) => {
       return { ...state, loading: false, comment: action.payload, success: true };
     case ERROR_COMMENT:
       return { ...state, loading: false, error: true, success: false };
+    case SUCCES_DISPLAY:
+      return { ...state, success: false };
     default:
       return state;
   }
@@ -34,5 +37,9 @@ export const loadingCommentRequest = (payload) => ({
 });
 export const errorCommentRequest = (payload) => ({
   type: ERROR_COMMENT,
+  payload,
+});
+export const succesCommentRequest = (payload) => ({
+  type: SUCCES_DISPLAY,
   payload,
 });

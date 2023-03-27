@@ -5,7 +5,7 @@ const LOADING_BOOKINGS_DATA = 'LOADING_BOOKINGS_DATA';
 const ERROR_BOOKINGS_DATA = 'ERROR_REGISTRATION_DATA';
 
 const initialState = {
-  bookings: localStorage.getItem('bookings') ? JSON.parse(localStorage.getItem('bookings')) : [],
+  bookings: localStorage.getItem('bookings') ? JSON.parse(localStorage.getItem('bookings')) : {},
   loading: false,
   error: false,
 };
