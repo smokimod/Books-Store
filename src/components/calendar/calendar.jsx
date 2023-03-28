@@ -2,15 +2,22 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CommentFetch } from '../../axios-create/instanse';
-import { getBookingsReducer, getErrorBookingsReducer, loadingBookingsReducer } from '../../store/bookingsReducer';
+import {
+  getBookingsReducer,
+  getErrorBookingsReducer,
+  getSuccesBookingsReducer,
+  loadingBookingsReducer,
+} from '../../store/bookingsReducer';
 
 import { CalendarLayout } from './calendar-layout';
 
 export const OrderBookCalendar = ({ showCalendar, orderBook }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDateSelect, setSelectedDateSelect] = useState(new Date());
+
   const [activeDate, setActiveDate] = useState(false);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.userData.data.user.id);
+  const customer = useSelector((state) => state.auth.userData.data.user.id);
 
   useEffect(() => {
     const today = new Date();
@@ -40,6 +47,7 @@ export const OrderBookCalendar = ({ showCalendar, orderBook }) => {
 
   const handleDateChange = (value) => {
     setSelectedDate(value);
+    setSelectedDateSelect(value.toISOString());
   };
   const handleYearChange = (value) => value.getFullYear();
 
@@ -53,18 +61,19 @@ export const OrderBookCalendar = ({ showCalendar, orderBook }) => {
       data: {
         dateOrder: selectedDate.toISOString(),
         book: info.id,
-        user,
-        order: info.booking.order,
+        customer,
+        order: !info.booking,
       },
     };
-    console.log(info);
 
     dispatch(loadingBookingsReducer());
     CommentFetch.post('/bookings', data)
       .then((results) => {
-        localStorage.setItem('bookings', JSON.stringify(results));
-
+        localStorage.setItem('bookings', JSON.stringify(results.data));
         dispatch(getBookingsReducer(results));
+        setTimeout(() => {
+          dispatch(getSuccesBookingsReducer(false));
+        }, 4000);
       })
       .catch((error) => {
         dispatch(getErrorBookingsReducer(error));
@@ -81,6 +90,7 @@ export const OrderBookCalendar = ({ showCalendar, orderBook }) => {
       selectedDate={selectedDate}
       activeDate={activeDate}
       BookingsRequest={BookingsRequest}
+      selectedDateSelect={selectedDateSelect}
     />
   );
 };

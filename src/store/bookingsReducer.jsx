@@ -3,11 +3,13 @@
 const GET_BOOKINGS = 'GET_BOOKINGS';
 const LOADING_BOOKINGS_DATA = 'LOADING_BOOKINGS_DATA';
 const ERROR_BOOKINGS_DATA = 'ERROR_REGISTRATION_DATA';
+const SUCCES_DATA = 'SUCCES_DATA';
 
 const initialState = {
   bookings: localStorage.getItem('bookings') ? JSON.parse(localStorage.getItem('bookings')) : {},
   loading: false,
   error: false,
+  succes: false,
 };
 
 export const BookingsReducer = (state = initialState, action) => {
@@ -22,6 +24,9 @@ export const BookingsReducer = (state = initialState, action) => {
         error: action.payload,
         loading: false,
       };
+
+    case SUCCES_DATA:
+      return { ...state, succes: true };
     default:
       return state;
   }
@@ -38,5 +43,9 @@ export const getErrorBookingsReducer = (payload) => ({
 
 export const getBookingsReducer = (payload) => ({
   type: GET_BOOKINGS,
+  payload,
+});
+export const getSuccesBookingsReducer = (payload) => ({
+  type: SUCCES_DATA,
   payload,
 });

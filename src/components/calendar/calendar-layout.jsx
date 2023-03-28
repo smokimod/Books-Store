@@ -16,15 +16,19 @@ export const CalendarLayout = ({
   selectedDate,
   activeDate,
   BookingsRequest,
+  selectedDateSelect,
 }) => {
   const loading = useSelector((state) => state.orderBook.loading);
+  const isOrderByUser = JSON.parse(localStorage.getItem('bookings'));
+  const disableBtn = activeDate || selectedDateSelect === isOrderByUser.data.attributes.dateOrder;
 
   return (
-    showCalendar &&
-    (loading ? (
-      <Loader />
-    ) : (
-      <section className='calendar-layout' onClick={orderBook} role='presentation'>
+    (loading && <Loader />) || (
+      <section
+        className={showCalendar ? 'calendar-layout' : 'calendar-layout disable'}
+        onClick={orderBook}
+        role='presentation'
+      >
         <div className='calendar-wrapper'>
           <div className='calednar-container' onClick={(e) => e.stopPropagation()} role='presentation'>
             <button type='button' onClick={orderBook} className='cross-container'>
@@ -46,8 +50,8 @@ export const CalendarLayout = ({
             </div>
             <button
               type='button'
-              className={activeDate ? 'btn-comment disabled' : 'btn-comment '}
-              disabled={activeDate}
+              className={disableBtn ? 'btn-comment disabled' : 'btn-comment '}
+              disabled={disableBtn}
               onClick={BookingsRequest}
             >
               забронировать
@@ -55,6 +59,6 @@ export const CalendarLayout = ({
           </div>
         </div>
       </section>
-    ))
+    )
   );
 };

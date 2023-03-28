@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { OrderBookCalendar } from '../../../calendar/calendar';
+import { AlertCase } from '../../../error-case/error-case';
 import { Loader } from '../../../loader';
 import { BooksPlate } from '../main-books/books-plate';
 import { BookSqure } from '../main-books/books-squre';
@@ -17,6 +18,7 @@ export const MainPage = () => {
   const error = useSelector((state) => state.books.error);
   const loading = useSelector((state) => state.books.loading);
   const categories = useSelector((state) => state.books.categories);
+  const orderStatus = useSelector((state) => state.orderBook.succes);
   const { category } = useParams();
 
   const [showSeacthBar, setShowSeacthBar] = useState(false);
@@ -43,6 +45,9 @@ export const MainPage = () => {
   const orderBook = (e, item) => {
     e.preventDefault();
     sessionStorage.setItem('bookID', JSON.stringify(item));
+    if (typeof window !== 'undefined') {
+      sessionStorage.getItem('bookID');
+    }
     setShowCalendar(!showCalendar);
   };
 
@@ -50,6 +55,7 @@ export const MainPage = () => {
     <React.Fragment>
       {loading ? <Loader /> : null}
       <OrderBookCalendar showCalendar={showCalendar} orderBook={(item) => orderBook(item)} />
+      {orderStatus ? <AlertCase orderStatus={orderStatus} /> : ''}
       <section className={error || loading ? 'article-section hidden' : 'article-section'}>
         <div className='navigation-wraper'>
           <div className='navigation-menu'>
@@ -94,7 +100,7 @@ export const MainPage = () => {
                       delivery={item.delivery}
                       key={item.id}
                       searchParam={searchParam}
-                      orderBook={() => orderBook(item)}
+                      orderBook={orderBook}
                     />
                   )
                 )
