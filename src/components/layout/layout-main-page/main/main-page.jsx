@@ -19,6 +19,8 @@ export const MainPage = () => {
   const loading = useSelector((state) => state.books.loading);
   const categories = useSelector((state) => state.books.categories);
   const orderStatus = useSelector((state) => state.orderBook.succes);
+  const orderStatusError = useSelector((state) => state.orderBook.error);
+
   const { category } = useParams();
 
   const [showSeacthBar, setShowSeacthBar] = useState(false);
@@ -45,8 +47,9 @@ export const MainPage = () => {
   const orderBook = (e, item) => {
     e.preventDefault();
     sessionStorage.setItem('bookID', JSON.stringify(item));
-    if (typeof window !== 'undefined') {
-      sessionStorage.getItem('bookID');
+
+    if (sessionStorage.getItem('bookID') === 'undefined') {
+      sessionStorage.removeItem('bookID');
     }
     setShowCalendar(!showCalendar);
   };
@@ -54,8 +57,12 @@ export const MainPage = () => {
   return (
     <React.Fragment>
       {loading ? <Loader /> : null}
-      <OrderBookCalendar showCalendar={showCalendar} orderBook={(item) => orderBook(item)} />
-      {orderStatus ? <AlertCase orderStatus={orderStatus} /> : ''}
+      <OrderBookCalendar showCalendar={showCalendar} orderBook={orderBook} setShowCalendar={setShowCalendar} />
+      {orderStatus || orderStatusError ? (
+        <AlertCase orderStatus={orderStatus} orderStatusError={orderStatusError} />
+      ) : (
+        ''
+      )}
       <section className={error || loading ? 'article-section hidden' : 'article-section'}>
         <div className='navigation-wraper'>
           <div className='navigation-menu'>

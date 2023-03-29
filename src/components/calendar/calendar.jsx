@@ -11,11 +11,11 @@ import {
 
 import { CalendarLayout } from './calendar-layout';
 
-export const OrderBookCalendar = ({ showCalendar, orderBook }) => {
+export const OrderBookCalendar = ({ showCalendar, orderBook, setShowCalendar }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedDateSelect, setSelectedDateSelect] = useState(new Date());
-
   const [activeDate, setActiveDate] = useState(false);
+
   const dispatch = useDispatch();
   const customer = useSelector((state) => state.auth.userData.data.user.id);
 
@@ -56,6 +56,7 @@ export const OrderBookCalendar = ({ showCalendar, orderBook }) => {
   const BookingsRequest = (e) => {
     e.preventDefault();
     const info = JSON.parse(sessionStorage.getItem('bookID'));
+    const isOrderByUser = JSON.parse(localStorage.getItem('bookings'));
 
     const data = {
       data: {
@@ -66,8 +67,11 @@ export const OrderBookCalendar = ({ showCalendar, orderBook }) => {
       },
     };
 
+    const requestType =
+      selectedDateSelect === isOrderByUser?.data?.attributes?.dateOrder ? `/bookings/${info.id}` : '/bookings';
+
     dispatch(loadingBookingsReducer());
-    CommentFetch.post('/bookings', data)
+    CommentFetch.post(requestType, data)
       .then((results) => {
         localStorage.setItem('bookings', JSON.stringify(results.data));
         dispatch(getBookingsReducer(results));
@@ -77,6 +81,10 @@ export const OrderBookCalendar = ({ showCalendar, orderBook }) => {
       })
       .catch((error) => {
         dispatch(getErrorBookingsReducer(error));
+        setShowCalendar(false);
+        setTimeout(() => {
+          dispatch(getErrorBookingsReducer(false));
+        }, 4000);
       });
   };
 

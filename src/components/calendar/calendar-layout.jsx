@@ -20,7 +20,13 @@ export const CalendarLayout = ({
 }) => {
   const loading = useSelector((state) => state.orderBook.loading);
   const isOrderByUser = JSON.parse(localStorage.getItem('bookings'));
-  const disableBtn = activeDate || selectedDateSelect === isOrderByUser.data.attributes.dateOrder;
+  const isOrderBySomeone = JSON.parse(sessionStorage.getItem('bookID'));
+
+  const disableBtn =
+    activeDate ||
+    selectedDateSelect === isOrderByUser?.data?.attributes?.dateOrder ||
+    isOrderBySomeone?.booking ||
+    !showCalendar;
 
   return (
     (loading && <Loader />) || (
@@ -34,7 +40,9 @@ export const CalendarLayout = ({
             <button type='button' onClick={orderBook} className='cross-container'>
               <img src={cross} alt='cross' />
             </button>
-            <h4>Выбор даты бронирования</h4>
+            <h4>
+              {isOrderBySomeone && isOrderBySomeone.booking ? 'Выбор даты бронирования' : 'Изменения даты бронирования'}
+            </h4>
             <div className='calendar'>
               <Calendar
                 onClickMonth={handleMonthChange}
@@ -56,6 +64,11 @@ export const CalendarLayout = ({
             >
               забронировать
             </button>
+            {isOrderBySomeone?.delivery && (
+              <button type='button' className='btn-comment cancel'>
+                отменить бронь
+              </button>
+            )}
           </div>
         </div>
       </section>
