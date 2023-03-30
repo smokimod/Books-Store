@@ -1,3 +1,4 @@
+/* eslint-disable no-negated-condition */
 import { Link, useParams } from 'react-router-dom';
 
 import altBookImage from '../../../../../icons/book-images/catAvatar_icon.svg';
@@ -19,6 +20,7 @@ export const BookSqure = ({
   searchParam,
   orderBook,
   item,
+  currentUserId,
 }) => {
   const IMAGE_URL = 'https://strapi.cleverland.by';
 
@@ -27,12 +29,22 @@ export const BookSqure = ({
     <img src={index >= Math.round(rating) ? emtyStar : star} alt={star} key={Math.random()} />
   ));
   const bookId = booking ? booking?.id : delivery ? delivery?.id : '';
-  const bookOrderStatusStyle = booking?.order ? 'order booking' : delivery ? 'order delivery' : 'order';
-  const bookOrderStatusText = booking?.order
-    ? `Занята до ${new Date(booking.dateOrder).toLocaleDateString()}`
-    : delivery?.handed
-    ? 'Забронировна'
-    : 'Забронировать';
+  const bookOrderStatusStyle =
+    !booking && !delivery
+      ? 'order'
+      : booking?.customerId === currentUserId
+      ? 'order delivery'
+      : delivery
+      ? 'order booking'
+      : 'order booking';
+  const bookOrderStatusText =
+    !booking && !delivery
+      ? 'Забронировать'
+      : booking?.customerId === currentUserId
+      ? 'Забронировна'
+      : delivery && !booking
+      ? `Занята до ${new Date(delivery?.dateHandedTo).toLocaleDateString()}`
+      : 'Забронировна';
 
   return (
     <Link to={`/books/${category}/${id}`} key={id} id='card'>

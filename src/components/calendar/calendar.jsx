@@ -18,12 +18,14 @@ export const OrderBookCalendar = ({ showCalendar, orderBook, setShowCalendar }) 
 
   const dispatch = useDispatch();
   const customer = useSelector((state) => state.auth.userData.data.user.id);
-
+  console.log(selectedDate.getDay() - 2);
   useEffect(() => {
     const today = new Date();
     const getDay = () => {
-      if (selectedDate.getDay() === 0) setActiveDate(true);
+      if (selectedDate.getDay() === 0 || selectedDate.getDay() === 6) setActiveDate(true);
       else if (selectedDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) setActiveDate(true);
+      else if (today.getDay() === 5 && selectedDate.getDay() !== 1) setActiveDate(true);
+      else if (selectedDate.getDay() - 2 > today.getDay()) setActiveDate(true);
       else setActiveDate(false);
     };
 
@@ -68,7 +70,7 @@ export const OrderBookCalendar = ({ showCalendar, orderBook, setShowCalendar }) 
     };
 
     const requestType =
-      selectedDateSelect === isOrderByUser?.data?.attributes?.dateOrder ? `/bookings/${info.id}` : '/bookings';
+      selectedDateSelect === isOrderByUser?.attributes?.dateOrder ? `/bookings/${info.delivery.id}` : '/bookings';
 
     dispatch(loadingBookingsReducer());
     CommentFetch.post(requestType, data)

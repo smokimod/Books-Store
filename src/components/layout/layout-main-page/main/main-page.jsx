@@ -14,6 +14,7 @@ import { SearchField } from './search-field/search-field';
 import './main-page.scss';
 
 export const MainPage = () => {
+  const currentUserId = useSelector((state) => state.auth.userData.data.user.id);
   const books = useSelector((state) => state.books.books);
   const error = useSelector((state) => state.books.error);
   const loading = useSelector((state) => state.books.loading);
@@ -94,6 +95,7 @@ export const MainPage = () => {
                       key={item.id}
                       searchParam={searchParam}
                       orderBook={orderBook}
+                      currentUserId={currentUserId}
                     />
                   ) : (
                     <BooksPlate
@@ -108,6 +110,7 @@ export const MainPage = () => {
                       key={item.id}
                       searchParam={searchParam}
                       orderBook={orderBook}
+                      currentUserId={currentUserId}
                     />
                   )
                 )

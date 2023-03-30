@@ -21,10 +21,9 @@ export const CalendarLayout = ({
   const loading = useSelector((state) => state.orderBook.loading);
   const isOrderByUser = JSON.parse(localStorage.getItem('bookings'));
   const isOrderBySomeone = JSON.parse(sessionStorage.getItem('bookID'));
-
   const disableBtn =
     activeDate ||
-    selectedDateSelect === isOrderByUser?.data?.attributes?.dateOrder ||
+    selectedDateSelect === isOrderByUser?.attributes?.dateOrder ||
     isOrderBySomeone?.booking ||
     !showCalendar;
 
