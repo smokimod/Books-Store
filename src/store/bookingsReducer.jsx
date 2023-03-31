@@ -4,12 +4,14 @@ const GET_BOOKINGS = 'GET_BOOKINGS';
 const LOADING_BOOKINGS_DATA = 'LOADING_BOOKINGS_DATA';
 const ERROR_BOOKINGS_DATA = 'ERROR_REGISTRATION_DATA';
 const SUCCES_DATA = 'SUCCES_DATA';
+const DATA_DELETE = 'DATA_DELETE';
 
 const initialState = {
   bookings: localStorage.getItem('bookings') ? JSON.parse(localStorage.getItem('bookings')) : {},
   loading: false,
   error: false,
   succes: false,
+  delete: false,
 };
 
 export const BookingsReducer = (state = initialState, action) => {
@@ -27,6 +29,8 @@ export const BookingsReducer = (state = initialState, action) => {
 
     case SUCCES_DATA:
       return { ...state, succes: true };
+    case DATA_DELETE:
+      return { ...state, delete: true };
     default:
       return state;
   }
@@ -47,5 +51,9 @@ export const getBookingsReducer = (payload) => ({
 });
 export const getSuccesBookingsReducer = (payload) => ({
   type: SUCCES_DATA,
+  payload,
+});
+export const getDeleteBookingsReducer = (payload) => ({
+  type: DATA_DELETE,
   payload,
 });

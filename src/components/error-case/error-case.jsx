@@ -8,7 +8,7 @@ import warning from '../../icons/error-case/WarningCircle.svg';
 
 import './error-case.scss';
 
-export const AlertCase = ({ text, orderStatus }) => {
+export const AlertCase = ({ text, successOrder, deleteOrder }) => {
   const success = useSelector((state) => state.comment.success);
   const orderStatusError = useSelector((state) => state.comment.error);
 
@@ -30,10 +30,14 @@ export const AlertCase = ({ text, orderStatus }) => {
 
   const textIno = text
     ? text
-    : orderStatus
+    : successOrder
     ? 'Книга забронирована. Подробности можно посмотреть на странице Профиль'
-    : orderStatusError
+    : orderStatusError && successOrder
     ? 'Что-то пошло не так, книга не забронирована. Попробуйте позже!'
+    : deleteOrder
+    ? 'Бронирование книги успешно отменено!'
+    : deleteOrder && orderStatusError
+    ? 'Не удалось снять бронирование книги.Попробуйте позже!'
     : 'Что-то пошло не так. Попробуйте позже!';
 
   return (

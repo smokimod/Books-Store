@@ -18,6 +18,7 @@ export const BooksPlate = ({
   delivery,
   searchParam,
   orderBook,
+  currentUserId,
 }) => {
   const IMAGE_URL = 'https://strapi.cleverland.by';
   const { category } = useParams();

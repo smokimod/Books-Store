@@ -16,16 +16,13 @@ export const CalendarLayout = ({
   selectedDate,
   activeDate,
   BookingsRequest,
-  selectedDateSelect,
+  BookingsDeleteRequest,
+  customer,
 }) => {
   const loading = useSelector((state) => state.orderBook.loading);
-  const isOrderByUser = JSON.parse(localStorage.getItem('bookings'));
   const isOrderBySomeone = JSON.parse(sessionStorage.getItem('bookID'));
-  const disableBtn =
-    activeDate ||
-    selectedDateSelect === isOrderByUser?.attributes?.dateOrder ||
-    isOrderBySomeone?.booking ||
-    !showCalendar;
+  const disableBtn = activeDate || isOrderBySomeone?.booking || isOrderBySomeone?.delivery || !showCalendar;
+  const orderedBookStyle = isOrderBySomeone?.booking && isOrderBySomeone.booking.customerId === customer;
 
   return (
     (loading && <Loader />) || (
@@ -39,9 +36,7 @@ export const CalendarLayout = ({
             <button type='button' onClick={orderBook} className='cross-container'>
               <img src={cross} alt='cross' />
             </button>
-            <h4>
-              {isOrderBySomeone && isOrderBySomeone.booking ? 'Выбор даты бронирования' : 'Изменения даты бронирования'}
-            </h4>
+            <h4>{orderedBookStyle ? 'Изменения даты бронирования' : 'Выбор даты бронирования'}</h4>
             <div className='calendar'>
               <Calendar
                 onClickMonth={handleMonthChange}
@@ -59,12 +54,12 @@ export const CalendarLayout = ({
               type='button'
               className={disableBtn ? 'btn-comment disabled' : 'btn-comment '}
               disabled={disableBtn}
-              onClick={BookingsRequest}
+              onClick={(e) => BookingsRequest(e)}
             >
               забронировать
             </button>
-            {isOrderBySomeone?.delivery && (
-              <button type='button' className='btn-comment cancel'>
+            {orderedBookStyle && (
+              <button type='button' className='btn-comment cancel' onClick={(e) => BookingsDeleteRequest(e)}>
                 отменить бронь
               </button>
             )}
