@@ -1,3 +1,4 @@
+/* eslint-disable no-negated-condition */
 import { Link, useParams } from 'react-router-dom';
 
 import altBookImage from '../../../../../icons/book-images/catAvatar_icon.svg';
@@ -18,18 +19,32 @@ export const BookSqure = ({
   delivery,
   searchParam,
   orderBook,
+  item,
+  currentUserId,
 }) => {
   const IMAGE_URL = 'https://strapi.cleverland.by';
+
   const { category } = useParams();
   const stars = [...Array(5)].map((__, index) => (
     <img src={index >= Math.round(rating) ? emtyStar : star} alt={star} key={Math.random()} />
   ));
-  const bookOrderStatusStyle = booking?.order ? 'order booking' : delivery?.handed ? 'order delivery' : 'order';
-  const bookOrderStatusText = booking?.order
-    ? `Занята до ${booking.dateOrder}`
-    : delivery?.handed
-    ? 'Забронировна'
-    : 'Забронировать';
+  const bookId = booking ? booking?.id : delivery ? delivery?.id : '';
+  const bookOrderStatusStyle =
+    !booking && !delivery
+      ? 'order'
+      : booking?.customerId === currentUserId
+      ? 'order delivery'
+      : delivery
+      ? 'order booking'
+      : 'order booking';
+  const bookOrderStatusText =
+    !booking && !delivery
+      ? 'Забронировать'
+      : booking?.customerId === currentUserId
+      ? 'Забронировна'
+      : delivery && !booking
+      ? `Занята до ${new Date(delivery?.dateHandedTo).toLocaleDateString()}`
+      : 'Забронировна';
 
   return (
     <Link to={`/books/${category}/${id}`} key={id} id='card'>
@@ -55,12 +70,7 @@ export const BookSqure = ({
           <div className='book-autor'>
             {authors}, {issueYear}
           </div>
-          <button
-            onClick={orderBook}
-            id={booking ? booking?.id : delivery ? delivery?.id : ''}
-            type='button'
-            className={bookOrderStatusStyle}
-          >
+          <button onClick={(e) => orderBook(e, item)} id={bookId} type='button' className={bookOrderStatusStyle}>
             {bookOrderStatusText}
           </button>
         </div>

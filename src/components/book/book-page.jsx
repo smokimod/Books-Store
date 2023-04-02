@@ -28,6 +28,11 @@ export const BookPage = () => {
   const commentError = useSelector((state) => state.comment.error);
   const success = useSelector((state) => state.comment.success);
   const { authors, description, issueYear, title, booking, delivery, images, rating, comments } = currentBook;
+  const orderStatus = booking?.order
+    ? `Занята до ${new Date(booking.dateOrder).toLocaleDateString()}`
+    : delivery?.handed
+    ? 'Забронированно'
+    : 'Забронировать';
 
   useEffect(() => {
     const getBookRequestById = async () => {
@@ -83,7 +88,7 @@ export const BookPage = () => {
                       : 'order-book-btn'
                   }
                 >
-                  {booking?.order ? booking?.dateOrder : delivery?.handed ? 'Забронированно' : 'Забронировать'}
+                  {orderStatus}
                 </button>
               </div>
               <div className='book-about'>

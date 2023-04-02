@@ -18,9 +18,30 @@ export const BooksPlate = ({
   delivery,
   searchParam,
   orderBook,
+  currentUserId,
 }) => {
   const IMAGE_URL = 'https://strapi.cleverland.by';
   const { category } = useParams();
+  const stars = [...Array(5)].map((__, index) => (
+    <img src={index >= Math.round(rating) ? emtyStar : star} alt={star} key={Math.random()} />
+  ));
+  const bookId = booking ? booking?.id : delivery ? delivery?.id : '';
+  const bookOrderStatusStyle =
+    !booking && !delivery
+      ? 'order'
+      : booking?.customerId === currentUserId
+      ? 'order delivery'
+      : delivery
+      ? 'order booking'
+      : 'order booking';
+  const bookOrderStatusText =
+    !booking && !delivery
+      ? 'Забронировать'
+      : booking?.customerId === currentUserId
+      ? 'Забронировна'
+      : delivery && !booking
+      ? `Занята до ${new Date(delivery?.dateHandedTo).toLocaleDateString()}`
+      : 'Забронировна';
 
   return (
     <Link to={`/books/${category}/${id}`} key={id}>
@@ -40,25 +61,12 @@ export const BooksPlate = ({
             </div>
             <div className='plate-order'>
               {rating ? (
-                <div className='book-rating star'>
-                  {[0, 1, 2, 3, 4].map((__, index) => (
-                    <img src={index >= Math.round(rating) ? emtyStar : star} alt={star} key={Math.random()} />
-                  ))}
-                </div>
+                <div className='book-rating star'>{stars}</div>
               ) : (
                 <div className='book-rating'>ещё нет отзывов</div>
               )}
-              <button
-                onClick={orderBook}
-                id={booking ? booking?.id : delivery ? delivery?.id : ''}
-                type='button'
-                className={booking?.order ? 'plate-btn booking' : delivery?.handed ? 'plate-btn delivery' : 'plate-btn'}
-              >
-                {booking?.order
-                  ? `Занята до ${booking.dateOrder}`
-                  : delivery?.handed
-                  ? 'Забронировна'
-                  : 'Забронировать'}
+              <button onClick={orderBook} id={bookId} type='button' className={bookOrderStatusStyle}>
+                {bookOrderStatusText}
               </button>
             </div>
           </div>

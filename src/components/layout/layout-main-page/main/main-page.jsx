@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { OrderBookCalendar } from '../../../calendar/calendar';
+import { AlertCase } from '../../../error-case/error-case';
 import { Loader } from '../../../loader';
 import { BooksPlate } from '../main-books/books-plate';
 import { BookSqure } from '../main-books/books-squre';
@@ -13,10 +14,16 @@ import { SearchField } from './search-field/search-field';
 import './main-page.scss';
 
 export const MainPage = () => {
+  const currentUserId = useSelector((state) => state.auth.userData.data.user.id);
   const books = useSelector((state) => state.books.books);
   const error = useSelector((state) => state.books.error);
   const loading = useSelector((state) => state.books.loading);
   const categories = useSelector((state) => state.books.categories);
+  const successOrder = useSelector((state) => state.orderBook.succes);
+  const deleteOrder = useSelector((state) => state.orderBook.delete);
+  const reOdrerBook = useSelector((state) => state.orderBook.reOrder);
+  const orderStatusError = useSelector((state) => state.orderBook.error);
+
   const { category } = useParams();
 
   const [showSeacthBar, setShowSeacthBar] = useState(false);
@@ -40,15 +47,25 @@ export const MainPage = () => {
     return sort;
   }, [category, searchParam, books, chooseCategoryByName, sortByRating]);
 
-  const orderBook = (e) => {
+  const orderBook = (e, item) => {
     e.preventDefault();
+    sessionStorage.setItem('bookID', JSON.stringify(item));
+
+    if (sessionStorage.getItem('bookID') === 'undefined') {
+      sessionStorage.removeItem('bookID');
+    }
     setShowCalendar(!showCalendar);
   };
 
   return (
     <React.Fragment>
       {loading ? <Loader /> : null}
-      <OrderBookCalendar showCalendar={showCalendar} orderBook={orderBook} />
+      <OrderBookCalendar showCalendar={showCalendar} orderBook={orderBook} setShowCalendar={setShowCalendar} />
+      {successOrder || deleteOrder || reOdrerBook || orderStatusError ? (
+        <AlertCase successOrder={successOrder} deleteOrder={deleteOrder} reOdrerBook={reOdrerBook} />
+      ) : (
+        ''
+      )}
       <section className={error || loading ? 'article-section hidden' : 'article-section'}>
         <div className='navigation-wraper'>
           <div className='navigation-menu'>
@@ -68,6 +85,7 @@ export const MainPage = () => {
                 finallBooks.map((item) =>
                   showPlate ? (
                     <BookSqure
+                      item={item}
                       title={item.title}
                       authors={item.authors}
                       id={item.id}
@@ -79,6 +97,7 @@ export const MainPage = () => {
                       key={item.id}
                       searchParam={searchParam}
                       orderBook={orderBook}
+                      currentUserId={currentUserId}
                     />
                   ) : (
                     <BooksPlate
@@ -93,6 +112,7 @@ export const MainPage = () => {
                       key={item.id}
                       searchParam={searchParam}
                       orderBook={orderBook}
+                      currentUserId={currentUserId}
                     />
                   )
                 )

@@ -7,7 +7,12 @@ import { CommentFetch } from '../../../axios-create/instanse';
 import emtyStar from '../../../icons/book-images/emptyStar_icon.svg';
 import star from '../../../icons/book-images/start_icon.svg';
 import cross from '../../../icons/creset_icon.svg';
-import { errorCommentRequest, getCommentRequest, loadingCommentRequest } from '../../../store/commentReducer';
+import {
+  errorCommentRequest,
+  getCommentRequest,
+  loadingCommentRequest,
+  succesCommentRequest,
+} from '../../../store/commentReducer';
 import { Loader } from '../../loader';
 
 import './comment.scss';
@@ -17,7 +22,6 @@ export const Comment = ({ showComment, handleShowComment }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.userData.data.user.id);
   const loading = useSelector((state) => state.comment.loading);
-  const succes = useSelector((state) => state.comment.succes);
 
   const [rating, setRating] = useState(1);
   const [hover, setHover] = useState(1);
@@ -41,6 +45,9 @@ export const Comment = ({ showComment, handleShowComment }) => {
       .then((results) => {
         localStorage.setItem('comment', JSON.stringify(results));
         dispatch(getCommentRequest(results));
+        setTimeout(() => {
+          dispatch(succesCommentRequest(false));
+        }, 4000);
       })
       .catch((error) => {
         dispatch(errorCommentRequest(error));
