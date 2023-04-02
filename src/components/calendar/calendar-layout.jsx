@@ -17,11 +17,17 @@ export const CalendarLayout = ({
   activeDate,
   BookingsRequest,
   BookingsDeleteRequest,
+  BookingsReOrderRequest,
   customer,
 }) => {
   const loading = useSelector((state) => state.orderBook.loading);
   const isOrderBySomeone = JSON.parse(sessionStorage.getItem('bookID'));
-  const disableBtn = activeDate || isOrderBySomeone?.booking || isOrderBySomeone?.delivery || !showCalendar;
+  const isOrderByME = JSON.parse(localStorage.getItem('bookings'));
+  const disableBtn =
+    activeDate ||
+    isOrderBySomeone?.delivery ||
+    !showCalendar ||
+    (isOrderBySomeone?.booking && isOrderBySomeone?.booking?.id !== isOrderByME?.id);
   const orderedBookStyle = isOrderBySomeone?.booking && isOrderBySomeone.booking.customerId === customer;
 
   return (
@@ -54,7 +60,7 @@ export const CalendarLayout = ({
               type='button'
               className={disableBtn ? 'btn-comment disabled' : 'btn-comment '}
               disabled={disableBtn}
-              onClick={(e) => BookingsRequest(e)}
+              onClick={orderedBookStyle ? (e) => BookingsReOrderRequest(e) : (e) => BookingsRequest(e)}
             >
               забронировать
             </button>

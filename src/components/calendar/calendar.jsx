@@ -2,11 +2,16 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CommentFetch as BookingRequest, DeleteOrderedBookRequest } from '../../axios-create/instanse';
+import {
+  CommentFetch as BookingRequest,
+  DeleteOrderedBookRequest,
+  ReOrderBookRequest,
+} from '../../axios-create/instanse';
 import {
   getBookingsReducer,
   getDeleteBookingsReducer,
   getErrorBookingsReducer,
+  getReOrderReducer,
   getSuccesBookingsReducer,
   loadingBookingsReducer,
 } from '../../store/bookingsReducer';
@@ -67,12 +72,6 @@ export const OrderBookCalendar = ({ showCalendar, orderBook, setShowCalendar }) 
     e.preventDefault();
 
     const currentBookInfo = JSON.parse(sessionStorage.getItem('bookID'));
-    const getOrderByUser = JSON.parse(localStorage.getItem('bookings'));
-
-    const requestType =
-      selectedDateSelect.toISOString() === getOrderByUser?.attributes?.dateOrder
-        ? `/bookings/${currentBookInfo.id}`
-        : '/bookings';
 
     const data = {
       data: {
@@ -84,45 +83,71 @@ export const OrderBookCalendar = ({ showCalendar, orderBook, setShowCalendar }) 
     };
 
     dispatch(loadingBookingsReducer());
+
     BookingRequest.post('/bookings', data)
       .then((results) => {
         localStorage.setItem('bookings', JSON.stringify(results.data));
         dispatch(getBookingsReducer(results));
+        setShowCalendar(false);
         setTimeout(() => {
-          dispatch(getSuccesBookingsReducer(false));
+          dispatch(getSuccesBookingsReducer());
         }, 4000);
       })
-      .catch((error) => {
-        dispatch(getErrorBookingsReducer(error));
+      .catch(() => {
+        dispatch(getErrorBookingsReducer(true));
         setShowCalendar(false);
         setTimeout(() => {
           dispatch(getErrorBookingsReducer(false));
         }, 4000);
       });
   };
+
   const BookingsDeleteRequest = (e) => {
     e.preventDefault();
 
     const currentBookInfo = JSON.parse(sessionStorage.getItem('bookID'));
-    const getOrderByUser = JSON.parse(localStorage.getItem('bookings'));
 
-    console.log(currentBookInfo.id);
     dispatch(loadingBookingsReducer());
 
     DeleteOrderedBookRequest.delete(`/bookings/${currentBookInfo.booking.id}`)
-      .then((results) => {
+      .then(() => {
         localStorage.removeItem('bookings');
-        localStorage.setItem('deletedOrder', JSON.stringify(results.data));
-        dispatch(getBookingsReducer(results));
+        setShowCalendar(false);
+        dispatch(getDeleteBookingsReducer(true));
         setTimeout(() => {
-          dispatch(getSuccesBookingsReducer(false));
+          dispatch(getDeleteBookingsReducer(false));
         }, 4000);
       })
-      .catch((error) => {
-        dispatch(getErrorBookingsReducer(error));
+      .catch(() => {
+        dispatch(getErrorBookingsReducer(true));
         setShowCalendar(false);
         setTimeout(() => {
           dispatch(getDeleteBookingsReducer(false));
+        }, 4000);
+      });
+  };
+
+  const BookingsReOrderRequest = (e) => {
+    e.preventDefault();
+
+    const currentBookInfo = JSON.parse(sessionStorage.getItem('bookID'));
+
+    dispatch(loadingBookingsReducer());
+
+    ReOrderBookRequest.put(`/bookings/${currentBookInfo.booking.id}`)
+      .then((results) => {
+        localStorage.setItem('deletedOrder', JSON.stringify(results.data));
+        setShowCalendar(false);
+        dispatch(getBookingsReducer(results));
+        setTimeout(() => {
+          dispatch(getReOrderReducer(true));
+        }, 4000);
+      })
+      .catch(() => {
+        dispatch(getErrorBookingsReducer(true));
+        setShowCalendar(false);
+        setTimeout(() => {
+          dispatch(getReOrderReducer(false));
         }, 4000);
       });
   };
@@ -138,6 +163,7 @@ export const OrderBookCalendar = ({ showCalendar, orderBook, setShowCalendar }) 
       activeDate={activeDate}
       BookingsRequest={BookingsRequest}
       BookingsDeleteRequest={BookingsDeleteRequest}
+      BookingsReOrderRequest={BookingsReOrderRequest}
       selectedDateSelect={selectedDateSelect}
       customer={customer}
     />

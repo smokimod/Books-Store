@@ -21,6 +21,7 @@ export const MainPage = () => {
   const categories = useSelector((state) => state.books.categories);
   const successOrder = useSelector((state) => state.orderBook.succes);
   const deleteOrder = useSelector((state) => state.orderBook.delete);
+  const reOdrerBook = useSelector((state) => state.orderBook.reOrder);
   const orderStatusError = useSelector((state) => state.orderBook.error);
 
   const { category } = useParams();
@@ -60,8 +61,8 @@ export const MainPage = () => {
     <React.Fragment>
       {loading ? <Loader /> : null}
       <OrderBookCalendar showCalendar={showCalendar} orderBook={orderBook} setShowCalendar={setShowCalendar} />
-      {successOrder || deleteOrder || orderStatusError ? (
-        <AlertCase successOrder={successOrder} deleteOrder={deleteOrder} />
+      {successOrder || deleteOrder || reOdrerBook || orderStatusError ? (
+        <AlertCase successOrder={successOrder} deleteOrder={deleteOrder} reOdrerBook={reOdrerBook} />
       ) : (
         ''
       )}
