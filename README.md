@@ -1,9 +1,12 @@
-# Краткое описание спринта
- Переносить файлы из предыдущего спринта больше не нужно. Для начала работы вам необходимо просто создать новую ветку, в которой вы будете вести разработку, от ветки main. После того как вы выполнили задание делаете push и открываете pull request из своей ветки в ветку main.
+![Безымянный](https://user-images.githubusercontent.com/85346735/231833642-b75b1b5d-0d99-4a1d-9965-97379a784050.png)
 
-В данном спринте вам необходимо реализовать сортировку и фильтрацию книг, а так же добавить возможность возврата на главную страницу из хлебных крошек на странице книги.
-Поведение страниц должно соответсвовать флоу [макета](https://www.figma.com/file/d8LhhLjMkaTfPvAcYQULNv/Library---students-file?node-id=3601%3A32185&t=WHYHy5dLhHhBpShp-0).
-
-### Ссылка на инструкцию
-В данной [инструкции](https://docs.google.com/document/d/1vgj_EIHl5IvVqNaPZChI07kBtkbLKaBh/edit) подробное описание задания на четвёртый спринт.
-
+<h1 align="center">Books Store</h1>
+<a href="https://books-ten-theta.vercel.app/#/local/" target="_blank">Demo</a>
+<h1>About</h1>
+<p>Domain: Books Store. App for ordering books. Project by Clevertec-company.
+<p>Purpose: Training by Clevertec.</p>
+<p>My Role: Front-End Developer.</p>
+<p>
+Functions: A project was made according to the Figma layout. Responsive and cross-browser. Includes commenting functionality with rating system, popup windows, searching, sorting and filtering books by criteria, finding info about specific book, authorisation and password restore. Also tests writing with Cypress. Code standards adherence with linter : ESLint.
+</p>
+</p>
