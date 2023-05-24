@@ -35,7 +35,7 @@ export const LogInAuth = () => {
     e.preventDefault();
     dispatch(loadingAuthReducer());
     axios
-      .post('https://strapi.cleverland.by/api/auth/local', data)
+      .post('https://library-cleverland-2jfze.ondigitalocean.app/api/auth/local', data)
       .then((results) => {
         localStorage.setItem('auth', JSON.stringify(results));
         dispatch(getAuthReducer(results));

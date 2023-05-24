@@ -5,7 +5,7 @@ import { errorCommentRequest, getCommentRequest, loadingCommentRequest, succesCo
 export const CommentSlice = (data) => async (dispatch) => {
   dispatch(loadingCommentRequest());
   try {
-    const bookSearchRequest = await axios.post('https://strapi.cleverland.by/api/comments', data);
+    const bookSearchRequest = await axios.post('https://library-cleverland-2jfze.ondigitalocean.app/comments', data);
 
     dispatch(succesCommentRequest(true));
     await dispatch(getCommentRequest(bookSearchRequest));

@@ -61,7 +61,7 @@ export const RestorePassword = () => {
     data.code = code;
     dispatch(loadingAuthReducer());
     axios
-      .post('https://strapi.cleverland.by/api/auth/reset-password', data)
+      .post('https://library-cleverland-2jfze.ondigitalocean.app/auth/reset-password', data)
       .then((results) => {
         dispatch(getAuthReducer(results));
         setShowModal(true);

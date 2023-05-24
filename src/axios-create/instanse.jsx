@@ -1,21 +1,21 @@
 import axios from 'axios';
 
 export const AuthFetch = axios.create({
-  baseURL: 'https://strapi.cleverland.by/api',
+  baseURL: 'https://library-cleverland-2jfze.ondigitalocean.app/api',
   method: 'get',
 });
 export const CommentFetch = axios.create({
-  baseURL: 'https://strapi.cleverland.by/api',
+  baseURL: 'https://library-cleverland-2jfze.ondigitalocean.app/api',
   method: 'post',
 });
 
 export const DeleteOrderedBookRequest = axios.create({
-  baseURL: 'https://strapi.cleverland.by/api',
+  baseURL: 'https://library-cleverland-2jfze.ondigitalocean.app/api',
   method: 'delete',
 });
 
 export const ReOrderBookRequest = axios.create({
-  baseURL: 'https://strapi.cleverland.by/api',
+  baseURL: 'https://library-cleverland-2jfze.ondigitalocean.app/api',
   method: 'put',
 });
 

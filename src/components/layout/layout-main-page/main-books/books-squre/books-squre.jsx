@@ -22,8 +22,6 @@ export const BookSqure = ({
   item,
   currentUserId,
 }) => {
-  const IMAGE_URL = 'https://strapi.cleverland.by';
-
   const { category } = useParams();
   const stars = [...Array(5)].map((__, index) => (
     <img src={index >= Math.round(rating) ? emtyStar : star} alt={star} key={Math.random()} />
@@ -51,12 +49,7 @@ export const BookSqure = ({
       <div className='book-card' data-test-id='card'>
         <div className='book-wraper'>
           <div className='book-img-container'>
-            <img
-              className='book-img'
-              loading='lazy'
-              src={image ? `${IMAGE_URL}${image.url}` : altBookImage}
-              alt={altBookImage}
-            />
+            <img className='book-img' loading='lazy' src={image ? `${image.url}` : altBookImage} alt={altBookImage} />
           </div>
           {rating ? (
             <div className='book-rating star'>{stars}</div>

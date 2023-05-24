@@ -40,7 +40,7 @@ export const ForgotPassword = () => {
     e.preventDefault();
     dispatch(loadingAuthReducer());
     axios
-      .post('https://strapi.cleverland.by/api/auth/forgot-password', data)
+      .post('https://library-cleverland-2jfze.ondigitalocean.app/api/auth/forgot-password', data)
       .then((results) => {
         dispatch(getAuthReducer(results));
         setShowModal(true);

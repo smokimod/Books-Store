@@ -57,7 +57,7 @@ export const AuthRegistration = () => {
     e.preventDefault();
     dispatch(loadingAuthReducer());
     axios
-      .post('https://strapi.cleverland.by/api/auth/local/register', data)
+      .post('https://library-cleverland-2jfze.ondigitalocean.app/api/auth/local/register', data)
       .then((results) => {
         dispatch(getAuthReducer(results));
         setShowModal(true);
