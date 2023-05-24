@@ -4,20 +4,20 @@ const colorRed = { color: 'red' };
 
 export const ErrorDisplay = ({ errors, status }) =>
   (errors?.password && (
-    <span className='pass-error' style={colorRed} data-test-id=' hint'>
+    <div className='pass-error' style={colorRed} data-test-id=' hint'>
       {errors?.password?.message}
       <Link to='forgot-pass'>Восстановить?</Link>
-    </span>
+    </div>
   )) ||
   (errors?.identifier && (
-    <span className='pass-error' style={colorRed} data-test-id=' hint'>
+    <div className='pass-error' style={colorRed} data-test-id=' hint'>
       {errors?.identifier?.message}
       <Link to='/forgot-pass'>Восстановить?</Link>
-    </span>
+    </div>
   )) ||
   (status === 400 && (
-    <span className='pass-error' style={colorRed} data-test-id=' hint'>
+    <div className='pass-error' style={colorRed} data-test-id=' hint'>
       Неверный логин или пароль!
       <Link to='/forgot-pass'>Восстановить?</Link>
-    </span>
+    </div>
   )) || <Link to='/forgot-pass'>Забыли логин или пароль?</Link>;

@@ -9,7 +9,7 @@ const initialState = {
   comment: {},
   loading: false,
   error: false,
-  success: false,
+  successComment: false,
 };
 
 export const CommentReducer = (state = initialState, action) => {
@@ -17,11 +17,11 @@ export const CommentReducer = (state = initialState, action) => {
     case LOADING_COMMENT:
       return { ...state, loading: true };
     case COMMENT_DATA:
-      return { ...state, loading: false, comment: action.payload, success: true };
+      return { ...state, loading: false, comment: action.payload, successComment: true };
     case ERROR_COMMENT:
-      return { ...state, loading: false, error: true, success: false };
+      return { ...state, loading: false, error: action.payload, successComment: false };
     case SUCCES_DISPLAY:
-      return { ...state, success: false };
+      return { ...state, successComment: false };
     default:
       return state;
   }

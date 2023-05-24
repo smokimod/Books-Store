@@ -15,7 +15,6 @@ import 'swiper/css/pagination';
 
 export const BookSlider = ({ images = [] }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const IMAGE_URL = 'https://strapi.cleverland.by';
 
   return (
     <React.Fragment>
@@ -36,7 +35,7 @@ export const BookSlider = ({ images = [] }) => {
         {images && images.length >= 1 ? (
           images.map((item) => (
             <SwiperSlide key={item.url}>
-              <img src={`${IMAGE_URL}${item.url}`} alt='cover-books' loading='lazy' />
+              <img src={`${item.url}`} alt='cover-books' loading='lazy' />
             </SwiperSlide>
           ))
         ) : (
@@ -63,7 +62,7 @@ export const BookSlider = ({ images = [] }) => {
         >
           {images.map((item) => (
             <SwiperSlide key={item.url} data-test-id='slide-mini'>
-              <img src={`${IMAGE_URL}${item.url}`} alt='cover-books' className='img_disabled' />
+              <img src={`${item.url}`} alt='cover-books' className='img_disabled' />
             </SwiperSlide>
           ))}
         </Swiper>

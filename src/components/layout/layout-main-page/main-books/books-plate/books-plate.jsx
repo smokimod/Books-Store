@@ -20,7 +20,6 @@ export const BooksPlate = ({
   orderBook,
   currentUserId,
 }) => {
-  const IMAGE_URL = 'https://strapi.cleverland.by';
   const { category } = useParams();
   const stars = [...Array(5)].map((__, index) => (
     <img src={index >= Math.round(rating) ? emtyStar : star} alt={star} key={Math.random()} />
@@ -48,7 +47,7 @@ export const BooksPlate = ({
       <div className='plate' data-test-id='card'>
         <div className='plate-container'>
           <div className='plate-img-container'>
-            <img className='plate-img' src={image ? `${IMAGE_URL}${image.url}` : altBookImage} alt={altBookImage} />
+            <img className='plate-img' src={image ? `${image.url}` : altBookImage} alt={altBookImage} />
           </div>
           <div className='plate-book-info'>
             <div className='book-info'>

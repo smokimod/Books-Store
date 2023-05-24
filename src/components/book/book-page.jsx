@@ -26,8 +26,17 @@ export const BookPage = () => {
   const categories = useSelector((state) => state.books.categories);
   const error = useSelector((state) => state.books.error);
   const commentError = useSelector((state) => state.comment.error);
-  const success = useSelector((state) => state.comment.success);
+  const successComment = useSelector((state) => state.comment.successComment);
+  const successOrder = useSelector((state) => state.orderBook.succes);
+  const deleteOrder = useSelector((state) => state.orderBook.delete);
+  const reOdrerBook = useSelector((state) => state.orderBook.reOrder);
+  const orderStatusError = useSelector((state) => state.orderBook.error);
+
+  const conditionsAlertWindow =
+    successOrder || deleteOrder || reOdrerBook || orderStatusError || commentError || successComment;
+
   const { authors, description, issueYear, title, booking, delivery, images, rating, comments } = currentBook;
+
   const orderStatus = booking?.order
     ? `Занята до ${new Date(booking.dateOrder).toLocaleDateString()}`
     : delivery?.handed
@@ -50,6 +59,12 @@ export const BookPage = () => {
 
   const orderBook = (e) => {
     e.preventDefault();
+
+    sessionStorage.setItem('bookID', JSON.stringify(currentBook));
+
+    if (sessionStorage.getItem('bookID') === 'undefined') {
+      sessionStorage.removeItem('bookID');
+    }
     setShowCalendar(!showCalendar);
   };
 
@@ -58,14 +73,19 @@ export const BookPage = () => {
   ) : (
     <div className='book-container'>
       <BreadCrumbs title={title} />
-      {commentError ? (
-        <AlertCase text='Оценка не была отправлена. Попробуйте позже!' />
-      ) : success ? (
-        <AlertCase text='Спасибо, что нашли время оценить книгу!' />
+      {conditionsAlertWindow ? (
+        <AlertCase
+          text='Спасибо, что нашли время оценить книгу!'
+          successOrder={successOrder}
+          deleteOrder={deleteOrder}
+          reOdrerBook={reOdrerBook}
+          successComment={successComment}
+          commentError={commentError}
+        />
       ) : null}
       {error ? null : (
         <div className='book-holder'>
-          <OrderBookCalendar showCalendar={showCalendar} orderBook={orderBook} />
+          <OrderBookCalendar showCalendar={showCalendar} orderBook={orderBook} setShowCalendar={setShowCalendar} />
 
           <section className='book-page'>
             <div className='book-name'>
@@ -78,7 +98,7 @@ export const BookPage = () => {
                   {authors}, {issueYear}
                 </div>
                 <button
-                  onClick={orderBook}
+                  onClick={(e) => orderBook(e, currentBook)}
                   type='button'
                   className={
                     booking?.order

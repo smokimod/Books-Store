@@ -10,9 +10,9 @@ import './book-coments.scss';
 
 export const BookComents = ({ comments = [], handleShowComment }) => {
   const [showComments, setShownComments] = useState(false);
-  const userId = useSelector((state) => state.auth.userData);
+  const userId = useSelector((state) => state.auth.userData.data.user);
 
-  const find = comments.find((item) => item.user.commentUserId === userId?.data?.user?.id);
+  const find = comments.find((item) => item.user.commentUserId === userId.id);
 
   const commentList = useMemo(() => {
     const sort = comments.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
@@ -75,7 +75,7 @@ export const BookComents = ({ comments = [], handleShowComment }) => {
         type='button'
         className={find && userId ? 'set-a-comment disabled' : 'set-a-comment'}
         onClick={handleShowComment}
-        disabled={find && userId ? true : false}
+        disabled={find && userId}
       >
         оценить книгу
       </button>

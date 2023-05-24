@@ -62,7 +62,12 @@ export const MainPage = () => {
       {loading ? <Loader /> : null}
       <OrderBookCalendar showCalendar={showCalendar} orderBook={orderBook} setShowCalendar={setShowCalendar} />
       {successOrder || deleteOrder || reOdrerBook || orderStatusError ? (
-        <AlertCase successOrder={successOrder} deleteOrder={deleteOrder} reOdrerBook={reOdrerBook} />
+        <AlertCase
+          successOrder={successOrder}
+          deleteOrder={deleteOrder}
+          reOdrerBook={reOdrerBook}
+          orderStatusError={orderStatusError}
+        />
       ) : (
         ''
       )}

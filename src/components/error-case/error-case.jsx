@@ -8,9 +8,15 @@ import warning from '../../icons/error-case/WarningCircle.svg';
 
 import './error-case.scss';
 
-export const AlertCase = ({ text, successOrder, deleteOrder, reOdrerBook }) => {
+export const AlertCase = ({
+  orderStatusError,
+  successOrder,
+  deleteOrder,
+  reOdrerBook,
+  successComment,
+  commentError,
+}) => {
   const success = useSelector((state) => state.comment.success);
-  const orderStatusError = useSelector((state) => state.comment.error);
 
   const [showerror, setShowError] = useState(false);
   const [showPopUp, setShowPopUp] = useState(true);
@@ -28,10 +34,12 @@ export const AlertCase = ({ text, successOrder, deleteOrder, reOdrerBook }) => {
     setShowError(true);
   };
 
-  const succesCondition = success || successOrder || text || reOdrerBook || deleteOrder;
+  const succesCondition = success || successOrder || reOdrerBook || deleteOrder || successComment;
 
-  const textIno = text
-    ? text
+  const textIno = successComment
+    ? 'Спасибо за оставленный отзыв!'
+    : commentError
+    ? 'Отзыв не был оставлен. Попробуйте позже!'
     : successOrder
     ? 'Книга забронирована. Подробности можно посмотреть на странице Профиль'
     : orderStatusError && successOrder
