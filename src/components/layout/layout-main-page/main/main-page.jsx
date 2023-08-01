@@ -14,11 +14,8 @@ import { SearchField } from './search-field/search-field';
 import './main-page.scss';
 
 export const MainPage = () => {
-  const currentUserId = useSelector((state) => state.auth.userData.data.user.id);
-  const books = useSelector((state) => state.books.books);
-  const error = useSelector((state) => state.books.error);
-  const loading = useSelector((state) => state.books.loading);
-  const categories = useSelector((state) => state.books.categories);
+  const currentUserId = useSelector((state) => state.auth.userData?.data?.user?.id);
+  const { books, error, loading, categories } = useSelector((state) => state.books);
   const successOrder = useSelector((state) => state.orderBook.succes);
   const deleteOrder = useSelector((state) => state.orderBook.delete);
   const reOdrerBook = useSelector((state) => state.orderBook.reOrder);

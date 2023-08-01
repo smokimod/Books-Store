@@ -47,7 +47,6 @@ export const OrderBookCalendar = ({ showCalendar, orderBook, setShowCalendar }) 
       selectedDateSelect.setDate(selectedDateSelect.getDate())
     ).toLocaleDateString();
     const todayToLocalDate = new Date(today.setDate(today.getDate())).toLocaleDateString();
-    const tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 3);
 
     const getDay = () => {
       if (selectedDate.getDay() === 0 || selectedDate.getDay() === 6 || selectDateToLocalDate === todayToLocalDate)

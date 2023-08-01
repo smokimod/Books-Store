@@ -50,6 +50,7 @@ export const AuthRegistration = () => {
   const previousStep = () => {
     reset();
     setStep((prev) => prev - 2);
+    setStatus('');
     setShowModal(false);
   };
 
@@ -98,7 +99,7 @@ export const AuthRegistration = () => {
               title='Что-то пошло не так и ваша регистрация не завершилась. Попробуйте ещё раз'
               text='повторить'
               head='Данные не сохранились'
-              path=''
+              path='/local'
               status={status}
               onSubmit={onSubmit}
             />
