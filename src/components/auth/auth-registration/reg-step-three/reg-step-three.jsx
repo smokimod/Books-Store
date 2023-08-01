@@ -17,11 +17,12 @@ export const RegStepThree = ({ register, errors, status }) => {
           id='reg-phone-input'
           {...withHookFormMask(register('phone'), ['+375 (33) 999-99-99'], {
             required: true,
+            message: 'Введите корректный e-mail',
           })}
         />
         <span>Номер телефона</span>
         <div style={errors.phone ? { color: 'red' } : null} data-test-id=' hint'>
-          {errors?.phone || 'В формате +375 (xx) xxx-xx-xx'}
+          {errors?.phone?.message || 'В формате +375 (xx) xxx-xx-xx'}
         </div>
       </label>
       <label htmlFor='reg-email-input'>
@@ -34,13 +35,14 @@ export const RegStepThree = ({ register, errors, status }) => {
           placeholder=' '
           {...register('email', {
             required: true,
+            message: 'Введите корректный e-mail',
             pattern:
               /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
           })}
         />
         <span>email</span>
-        <div style={{ color: 'red' }} data-test-id=' hint'>
-          {errors?.email && 'Введите корректный e-mail'}
+        <div style={errors?.email && { color: 'red' }} data-test-id=' hint'>
+          {errors?.email?.message || 'Введите корректный e-mail'}
         </div>
       </label>
     </React.Fragment>

@@ -21,10 +21,7 @@ export const BookPage = () => {
   const dispatch = useDispatch();
   const [showComment, setShowComment] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
-  const loading = useSelector((state) => state.books.loading);
-  const currentBook = useSelector((state) => state.books.currentBook);
-  const categories = useSelector((state) => state.books.categories);
-  const error = useSelector((state) => state.books.error);
+  const { loading, currentBook, categories, error } = useSelector((state) => state.books);
   const commentError = useSelector((state) => state.comment.error);
   const successComment = useSelector((state) => state.comment.successComment);
   const successOrder = useSelector((state) => state.orderBook.succes);

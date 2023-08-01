@@ -10,19 +10,18 @@ import { Menu } from './menu';
 import '../layout.scss';
 
 export const LayoutMainPage = () => {
-  const books = useSelector((state) => state.books.books);
-  const categories = useSelector((state) => state.books.categories);
+  const { books, categories } = useSelector((state) => state.books);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getInitialData = async () => {
-      categories.length > 0 ? null : await dispatch(CategoryOfBooksSlice());
-      books.length > 0 ? null : await dispatch(BooksSlice());
+    const getInitialData = () => {
+      categories.length > 0 ? null : dispatch(CategoryOfBooksSlice());
+      books.length > 0 ? null : dispatch(BooksSlice());
     };
 
     getInitialData();
-  }, [dispatch, categories, books.length]);
+  }, [dispatch, categories.length, books.length]);
 
   return (
     <div className='main-container'>
