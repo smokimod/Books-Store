@@ -21,22 +21,18 @@ export const BookPage = () => {
   const dispatch = useDispatch();
   const [showComment, setShowComment] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+
   const { loading, currentBook, categories, error } = useSelector((state) => state.books);
-  const commentError = useSelector((state) => state.comment.error);
-  const successComment = useSelector((state) => state.comment.successComment);
-  const successOrder = useSelector((state) => state.orderBook.succes);
-  const deleteOrder = useSelector((state) => state.orderBook.delete);
-  const reOdrerBook = useSelector((state) => state.orderBook.reOrder);
-  const orderStatusError = useSelector((state) => state.orderBook.error);
+  const { commentError, successComment } = useSelector((state) => state.comment);
+
+  const { successOrder, deleteOrder, reOdrerBook, orderStatusError } = useSelector((state) => state.orderBook);
 
   const conditionsAlertWindow =
     successOrder || deleteOrder || reOdrerBook || orderStatusError || commentError || successComment;
 
-  const { authors, description, issueYear, title, booking, delivery, images, rating, comments } = currentBook;
-
-  const orderStatus = booking?.order
-    ? `Занята до ${new Date(booking.dateOrder).toLocaleDateString()}`
-    : delivery?.handed
+  const orderStatus = currentBook?.booking?.order
+    ? `Занята до ${new Date(currentBook?.booking.dateOrder).toLocaleDateString()}`
+    : currentBook?.delivery?.handed
     ? 'Забронированно'
     : 'Забронировать';
 
@@ -46,7 +42,7 @@ export const BookPage = () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       categories.length > 0 ? null : await dispatch(CategoryOfBooksSlice());
     };
-
+    
     getBookRequestById();
   }, [id, dispatch, categories]);
 
@@ -54,7 +50,7 @@ export const BookPage = () => {
     setShowComment(!showComment);
   };
 
-  const orderBook = (e) => {
+  const orderBook =  (e) => {
     e.preventDefault();
 
     sessionStorage.setItem('bookID', JSON.stringify(currentBook));
@@ -62,6 +58,7 @@ export const BookPage = () => {
     if (sessionStorage.getItem('bookID') === 'undefined') {
       sessionStorage.removeItem('bookID');
     }
+
     setShowCalendar(!showCalendar);
   };
 
@@ -69,7 +66,7 @@ export const BookPage = () => {
     <Loader />
   ) : (
     <div className='book-container'>
-      <BreadCrumbs title={title} />
+      <BreadCrumbs title={currentBook.title} />
       {conditionsAlertWindow ? (
         <AlertCase
           text='Спасибо, что нашли время оценить книгу!'
@@ -78,6 +75,7 @@ export const BookPage = () => {
           reOdrerBook={reOdrerBook}
           successComment={successComment}
           commentError={commentError}
+          orderStatusError={orderStatusError}
         />
       ) : null}
       {error ? null : (
@@ -87,20 +85,20 @@ export const BookPage = () => {
           <section className='book-page'>
             <div className='book-name'>
               <div className='book-information'>
-                <BookSlider images={images} />
+                <BookSlider images={currentBook.images} />
               </div>
               <div className='detail-head'>
-                <h3 data-test-id='book-title'>{title}</h3>
+                <h3 data-test-id='book-title'>{currentBook.title}</h3>
                 <div className='book-subtitle'>
-                  {authors}, {issueYear}
+                  {currentBook.authors}, {currentBook.issueYear}
                 </div>
                 <button
                   onClick={(e) => orderBook(e, currentBook)}
                   type='button'
                   className={
-                    booking?.order
+                    currentBook.booking?.order
                       ? 'order-book-btn booking'
-                      : delivery?.handed
+                      : currentBook?.delivery?.handed
                       ? 'order-book-btn delivery'
                       : 'order-book-btn'
                   }
@@ -112,15 +110,15 @@ export const BookPage = () => {
                 <div>
                   <h5>О книге</h5>
                 </div>
-                <p className='description-item'>{description}</p>
+                <p className='description-item'>{currentBook.description}</p>
               </div>
             </div>
 
             <div className='book-summary'>
               <Comment showComment={showComment} handleShowComment={handleShowComment} />
-              <BookRating rating={rating} />
+              <BookRating rating={currentBook.rating} />
               <AdditionalInfoBook />
-              <BookComents comments={comments} handleShowComment={handleShowComment} />
+              <BookComents comments={currentBook.comments} handleShowComment={handleShowComment} />
             </div>
           </section>
         </div>

@@ -19,10 +19,11 @@ export const ReOrderBookRequest = axios.create({
   method: 'put',
 });
 
-const token = `Bearer ${JSON.parse(localStorage.getItem('auth'))?.data?.jwt}`;
 
 AuthFetch.interceptors.request.use(
   (request) => {
+const token = `Bearer ${JSON.parse(localStorage.getItem('auth'))?.data?.jwt}`;
+
     request.headers.Authorization = token;
 
     return request;
@@ -34,6 +35,8 @@ AuthFetch.interceptors.response.use((response) => response);
 
 CommentFetch.interceptors.request.use(
   (request) => {
+const token = `Bearer ${JSON.parse(localStorage.getItem('auth'))?.data?.jwt}`;
+
     request.headers.Authorization = token;
 
     return request;
@@ -45,6 +48,8 @@ CommentFetch.interceptors.response.use((response) => response);
 
 DeleteOrderedBookRequest.interceptors.request.use(
   (request) => {
+const token = `Bearer ${JSON.parse(localStorage.getItem('auth'))?.data?.jwt}`;
+
     request.headers.Authorization = token;
 
     return request;
@@ -56,6 +61,8 @@ DeleteOrderedBookRequest.interceptors.response.use((response) => response);
 
 ReOrderBookRequest.interceptors.request.use(
   (request) => {
+const token = `Bearer ${JSON.parse(localStorage.getItem('auth'))?.data?.jwt}`;
+
     request.headers.Authorization = token;
 
     return request;

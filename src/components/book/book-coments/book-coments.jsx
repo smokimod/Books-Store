@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import emtyStar from '../../../icons/book-images/emptyStar_icon.svg';
@@ -9,23 +9,31 @@ import { CommentDate } from '../comment-date/comment-date';
 import './book-coments.scss';
 
 export const BookComents = ({ comments = [], handleShowComment }) => {
-  const [showComments, setShownComments] = useState(false);
-  const userId = useSelector((state) => state.auth.userData.data.user);
-
-  const find = comments.find((item) => item.user.commentUserId === userId.id);
-
+  const [showComments, setShownComments] = useState(true);
+  const [disableButton, setDisableButton] = useState(false);
+  const userId = useSelector((state) => state.auth.userData?.data?.user);
+  
   const commentList = useMemo(() => {
-    const sort = comments.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+    const sort = comments.length>=1 ? comments.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)):[];
 
     return sort;
   }, [comments]);
+
+  useEffect(() => {
+    const find = comments && comments.find((item) => item.user.commentUserId === userId.id);
+    if (find) {
+      setDisableButton(true);
+    } else {
+      setDisableButton(false);
+    }
+  }, [comments, userId, disableButton]);
 
   return (
     <div className='book-coments'>
       <div className='comments-head'>
         <div className='show-comments'>
           <h5>
-            Отзывы <span>{comments && comments?.length}</span>{' '}
+            Отзывы <span>{comments && comments?.length}</span>
           </h5>
           <div
             onClick={() => setShownComments(!showComments)}
@@ -37,7 +45,8 @@ export const BookComents = ({ comments = [], handleShowComment }) => {
       </div>
       {showComments ? (
         <div className='feed-back'>
-          {comments.length >= 1
+          {(comments && comments.length >= 1 && comments !== null) ||
+          (comments && comments.length >= 1 && comments !== 'undefined')
             ? commentList.map((item) => (
                 <div className='comment one' key={item.id}>
                   <div className='user-name-data' id={item.user.commentUserId}>
@@ -73,9 +82,9 @@ export const BookComents = ({ comments = [], handleShowComment }) => {
       <button
         data-test-id='button-rating'
         type='button'
-        className={find && userId ? 'set-a-comment disabled' : 'set-a-comment'}
+        className={disableButton ? 'set-a-comment disabled' : 'set-a-comment'}
         onClick={handleShowComment}
-        disabled={find && userId}
+        disabled={disableButton}
       >
         оценить книгу
       </button>

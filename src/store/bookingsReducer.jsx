@@ -10,31 +10,30 @@ const REORDER_BOOKINGS_DATA = 'REORDER_BOOKINGS_DATA';
 const initialState = {
   bookings: localStorage.getItem('bookings') ? JSON.parse(localStorage.getItem('bookings')) : {},
   loading: false,
-  error: false,
-  succes: false,
-  delete: false,
-  reOrder: false,
+  orderStatusError: false,
+  successOrder: false,
+  deleteOrder: false,
+  reOrderBook: false,
 };
 
 export const BookingsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_BOOKINGS:
-      return { ...state, loading: false, bookings: action.payload, succes: true };
+      return { ...state, loading: false, bookings: action.payload, successOrder: true };
     case LOADING_BOOKINGS_DATA:
       return { ...state, loading: true };
     case ERROR_BOOKINGS_DATA:
       return {
         ...state,
-        error: action.payload,
+        orderStatusError: action.payload,
         loading: false,
       };
-
     case SUCCES_DATA:
-      return { ...state, succes: action.payload, loading: false };
+      return { ...state, successOrder: action.payload, loading: false };
     case DELETE_DATA:
-      return { ...state, delete: action.payload, loading: false, bookings: {} };
+      return { ...state, deleteOrder: action.payload, loading: false, bookings: {} };
     case REORDER_BOOKINGS_DATA:
-      return { ...state, reOrder: action.payload, loading: false };
+      return { ...state, reOrderBook: action.payload, loading: false };
     default:
       return state;
   }
