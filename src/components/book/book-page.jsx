@@ -22,6 +22,7 @@ export const BookPage = () => {
   const [showComment, setShowComment] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
 
+  const currentUserId = useSelector((state) => state.auth.userData?.data?.user?.id);
   const { loading, currentBook, categories, error } = useSelector((state) => state.books);
   const { commentError, successComment } = useSelector((state) => state.comment);
 
@@ -30,11 +31,16 @@ export const BookPage = () => {
   const conditionsAlertWindow =
     successOrder || deleteOrder || reOdrerBook || orderStatusError || commentError || successComment;
 
-  const orderStatus = currentBook?.booking?.order
-    ? `Занята до ${new Date(currentBook?.booking.dateOrder).toLocaleDateString()}`
-    : currentBook?.delivery?.handed
-    ? 'Забронированно'
-    : 'Забронировать';
+  const bookOrderStatusText =
+    !currentBook?.booking && currentBook?.delivery
+      ? 'Забронировать'
+      : currentBook?.booking.customerId === currentUserId
+      ? 'Забронировна'
+      : currentBook?.delivery && !currentBook?.booking
+      ? `Занята до ${new Date(currentBook.delivery?.dateHandedTo).toLocaleDateString()}`
+      : !currentBook?.delivery && currentBook?.booking
+      ? `Занята до ${new Date(currentBook.booking?.dateOrder).toLocaleDateString()}`
+      : 'Забронировна';
 
   useEffect(() => {
     const getBookRequestById = async () => {
@@ -42,7 +48,7 @@ export const BookPage = () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       categories.length > 0 ? null : await dispatch(CategoryOfBooksSlice());
     };
-    
+
     getBookRequestById();
   }, [id, dispatch, categories]);
 
@@ -50,7 +56,7 @@ export const BookPage = () => {
     setShowComment(!showComment);
   };
 
-  const orderBook =  (e) => {
+  const orderBook = (e) => {
     e.preventDefault();
 
     sessionStorage.setItem('bookID', JSON.stringify(currentBook));
@@ -103,7 +109,7 @@ export const BookPage = () => {
                       : 'order-book-btn'
                   }
                 >
-                  {orderStatus}
+                  {bookOrderStatusText}
                 </button>
               </div>
               <div className='book-about'>

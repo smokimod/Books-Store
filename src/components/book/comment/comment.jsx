@@ -7,6 +7,7 @@ import { CommentFetch } from '../../../axios-create/instanse';
 import emtyStar from '../../../icons/book-images/emptyStar_icon.svg';
 import star from '../../../icons/book-images/start_icon.svg';
 import cross from '../../../icons/creset_icon.svg';
+import { CurrentBookSlice } from '../../../store/books-slice';
 import {
   errorCommentRequest,
   getCommentRequest,
@@ -45,6 +46,7 @@ export const Comment = ({ showComment, handleShowComment }) => {
       .then((results) => {
         localStorage.setItem('comment', JSON.stringify(results));
         dispatch(getCommentRequest(results));
+        dispatch(CurrentBookSlice(id));
         setTimeout(() => {
           dispatch(succesCommentRequest(false));
         }, 4000);

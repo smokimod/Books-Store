@@ -25,6 +25,7 @@ export const BooksPlate = ({
     <img src={index >= Math.round(rating) ? emtyStar : star} alt={star} key={Math.random()} />
   ));
   const bookId = booking ? booking?.id : delivery ? delivery?.id : '';
+
   const bookOrderStatusStyle =
     !booking && !delivery
       ? 'order'
@@ -33,13 +34,16 @@ export const BooksPlate = ({
       : delivery
       ? 'order booking'
       : 'order booking';
+
   const bookOrderStatusText =
     !booking && !delivery
       ? 'Забронировать'
-      : booking?.customerId === currentUserId
+      : booking.customerId === currentUserId
       ? 'Забронировна'
       : delivery && !booking
       ? `Занята до ${new Date(delivery?.dateHandedTo).toLocaleDateString()}`
+      : !delivery && booking
+      ? `Занята до ${new Date(booking?.dateOrder).toLocaleDateString()}`
       : 'Забронировна';
 
   return (

@@ -15,9 +15,9 @@ export const LayoutMainPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getInitialData = () => {
-      categories.length > 0 ? null : dispatch(CategoryOfBooksSlice());
-      books.length > 0 ? null : dispatch(BooksSlice());
+    const getInitialData = async () => {
+      categories.length > 0 ? null : await dispatch(CategoryOfBooksSlice());
+      books.length > 0 ? null : await dispatch(BooksSlice());
     };
 
     getInitialData();

@@ -1,6 +1,7 @@
 /* eslint-disable no-negated-condition */
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import {
   CommentFetch as BookingRequest,
@@ -15,6 +16,7 @@ import {
   getSuccesBookingsReducer,
   loadingBookingsReducer,
 } from '../../store/bookingsReducer';
+import { BooksSlice, CurrentBookSlice } from '../../store/books-slice';
 
 import { CalendarLayout } from './calendar-layout';
 
@@ -36,6 +38,7 @@ const monthsArray = [
 export const OrderBookCalendar = ({ showCalendar, orderBook, setShowCalendar }) => {
   const customer = useSelector((state) => state.auth.userData.data.user.id);
   const dispatch = useDispatch();
+  const { id } = useParams();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedDateSelect, setSelectedDateSelect] = useState(new Date());
@@ -87,6 +90,12 @@ export const OrderBookCalendar = ({ showCalendar, orderBook, setShowCalendar }) 
       .then((results) => {
         localStorage.setItem('bookings', JSON.stringify(results.data));
         dispatch(getBookingsReducer(results));
+
+        if (id) dispatch(CurrentBookSlice(id));
+        else {
+          dispatch(BooksSlice());
+        }
+
         setShowCalendar(false);
         setTimeout(() => {
           dispatch(getSuccesBookingsReducer());
@@ -113,6 +122,12 @@ export const OrderBookCalendar = ({ showCalendar, orderBook, setShowCalendar }) 
         localStorage.removeItem('bookings');
         setShowCalendar(false);
         dispatch(getDeleteBookingsReducer(true));
+
+        if (id) dispatch(CurrentBookSlice(id));
+        else {
+          dispatch(BooksSlice());
+        }
+
         setTimeout(() => {
           dispatch(getDeleteBookingsReducer(false));
         }, 4000);
@@ -138,6 +153,12 @@ export const OrderBookCalendar = ({ showCalendar, orderBook, setShowCalendar }) 
         localStorage.setItem('deletedOrder', JSON.stringify(results.data));
         setShowCalendar(false);
         dispatch(getBookingsReducer(results));
+
+        if (id) dispatch(CurrentBookSlice(id));
+        else {
+          dispatch(BooksSlice());
+        }
+
         setTimeout(() => {
           dispatch(getReOrderReducer(true));
         }, 4000);

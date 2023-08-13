@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import emtyStar from '../../../icons/book-images/emptyStar_icon.svg';
@@ -12,15 +12,19 @@ export const BookComents = ({ comments = [], handleShowComment }) => {
   const [showComments, setShownComments] = useState(true);
   const [disableButton, setDisableButton] = useState(false);
   const userId = useSelector((state) => state.auth.userData?.data?.user);
-  
+
   const commentList = useMemo(() => {
-    const sort = comments.length>=1 ? comments.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)):[];
+    const sort =
+      comments && comments.length >= 1
+        ? comments.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+        : [];
 
     return sort;
   }, [comments]);
 
   useEffect(() => {
     const find = comments && comments.find((item) => item.user.commentUserId === userId.id);
+
     if (find) {
       setDisableButton(true);
     } else {

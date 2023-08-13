@@ -35,13 +35,16 @@ export const BookSqure = ({
       : delivery
       ? 'order booking'
       : 'order booking';
+
   const bookOrderStatusText =
     !booking && !delivery
       ? 'Забронировать'
-      : booking?.customerId === currentUserId
+      : booking.customerId === currentUserId
       ? 'Забронировна'
       : delivery && !booking
       ? `Занята до ${new Date(delivery?.dateHandedTo).toLocaleDateString()}`
+      : !delivery && booking
+      ? `Занята до ${new Date(booking?.dateOrder).toLocaleDateString()}`
       : 'Забронировна';
 
   return (
